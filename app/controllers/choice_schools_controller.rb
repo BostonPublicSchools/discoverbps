@@ -81,31 +81,22 @@ class ChoiceSchoolsController < ApplicationController
 
   # GET
   def order
+    params['re_rank'] == "true" ? session['re_rank'] = true : nil
     @notifications = Notification.where(school_choice_pages: true)
     @studentResponse = Webservice.get_student(@student.token, session[:caseid])
     if @student.choice_schools.blank?
       redirect_to choice_schools_path, alert: "There were no schools that matched your search. Please try again."
     elsif @studentResponse.try(:[], :HasRankedChoiceSubmitted) == true
+      if session['re_rank']
+        get_choice_schools
+        return true
+      end
       redirect_to success_choice_schools_path, alert: "You have already submitted your school choice list for the current school year. Your choice list is as follows:"
-    elsif @studentResponse.try(:[], :RoundEndDate).present? && Time.now > DateTime.parse(@studentResponse.try(:[], :RoundEndDate))       
-      @RoundEndDate = @studentResponse.try(:[], :RoundEndDate) 
+    elsif @studentResponse.try(:[], :RoundEndDate).present? && Time.now > DateTime.parse(@studentResponse.try(:[], :RoundEndDate))
+      @RoundEndDate = @studentResponse.try(:[], :RoundEndDate)
       redirect_to choice_schools_path(token: @student.token, caseid: session[:caseid]), alert: " As of #{Date.parse(@RoundEndDate).strftime("%B %d %Y")}, school choice process for the round is closed.  We are no longer accepting choices on this system. If you would like to submit choices for the #{SCHOOL_YEAR_CONTEXT} school year, please visit a Welcome Center."
     else
-      if schools = @student.choice_schools.select { |x| x.choice_rank.present? if x.choice_rank != 0 }.sort_by {|x| x.choice_rank }
-        @choice_schools = schools
-      elsif schools = @student.starred_schools.all
-        @choice_schools = schools
-      else
-        @choice_schools = []
-      end
-
-      @student.choice_schools.includes(:school).order(:sort_order).all.each do |student_school|
-        @choice_schools << student_school unless @choice_schools.include?(student_school)
-      end
-
-      respond_to do |format|
-        format.html
-      end
+      get_choice_schools
     end
   end
 
@@ -119,7 +110,6 @@ class ChoiceSchoolsController < ApplicationController
       order_ranking = rankings.map {|x| x.try(:to_i)}.sort.include? (1)
       properly_formatted = rankings.map {|x| x.try(:to_i)}.sort == (rankings.map {|x| x.try(:to_i)}.sort[0]..rankings.map {|x| x.try(:to_i)}.sort[-1]).to_a rescue false
       isRankings_Integer = rankings.all? {|i|i.to_i > 0 }
-
       session[:student_schools] = {}
       duplicate_rankings = params[:schools].values.detect{ |e| params[:schools].values.count(e) > 1 }.present?
       if duplicate_rankings
@@ -172,7 +162,11 @@ class ChoiceSchoolsController < ApplicationController
 
   # GET
   def summary
-    if Webservice.get_student(@student.token, session[:caseid]).try(:[], :HasRankedChoiceSubmitted) == true
+    if session['re_rank']
+      @choice_school_ids = session[:student_schools].keys
+      # @choice_schools = @student.choice_schools.select { |x| x.choice_rank.present? if x.choice_rank != 0 }.sort_by {|x| x.choice_rank }
+      @choice_schools = StudentSchool.where(id: @choice_school_ids).select{ |x| x.choice_rank.present? if x.choice_rank != 0 }.sort_by {|x| x.choice_rank }
+    elsif Webservice.get_student(@student.token, session[:caseid]).try(:[], :HasRankedChoiceSubmitted) == true
       redirect_to success_choice_schools_path, alert: "You have already submitted your school choice list for the current school year. Your choice list is as follows:"
     else
       @choice_schools = @student.choice_schools.select { |x| x.choice_rank.present? if x.choice_rank != 0 }.sort_by {|x| x.choice_rank }
@@ -181,8 +175,9 @@ class ChoiceSchoolsController < ApplicationController
 
   # POST
   def submit
-    session[:student_schools].clear
-    @choice_schools = @student.choice_schools.select { |x| x.choice_rank.present? }.sort_by {|x| x.choice_rank }
+    #@choice_schools = @student.choice_schools.select { |x| x.choice_rank.present? }.sort_by {|x| x.choice_rank }
+    @choice_schools_ids = session[:student_schools].keys
+    @choice_schools = StudentSchool.where(id: @choice_schools_ids).select { |x| x.choice_rank.present? }.sort_by {|x| x.choice_rank }
     if @choice_schools.blank?
       redirect_to order_choice_schools_path, alert: "Please rank one or more schools and then submit your list"
     elsif params[:parent_name].blank?
@@ -192,10 +187,11 @@ class ChoiceSchoolsController < ApplicationController
       @choice_schools.each do |student_school|
         payload << { "ProgramCode" => student_school.program_code, "SchoolLocalId" => student_school.school.bps_id, "Rank" => student_school.choice_rank, "Grade" => @student.formatted_grade_level}
       end
-      
       @student.update_attributes(ranked: true, ranked_at: Time.now, parent_name: params[:parent_name])
       rankedResponse = Webservice.save_ranked_choices(session[:session_token], payload, params[:parent_name], SERVICE_CLIENT_CODE, SCHOOL_YEAR_CONTEXT, session[:caseid])
       Webservice.send_ranked_email(session[:session_token], @student.token, session[:caseid])
+      session[:student_schools].clear
+      session['re_rank'] = nil
       redirect_to success_choice_schools_path
     end
   end
@@ -234,5 +230,22 @@ class ChoiceSchoolsController < ApplicationController
     # see if we can find a student with this token, which should have been
     # saved on the authenticate method. if not, go back and get one
     @student = Student.where(session_token: session[:session_token]).first
+  end
+
+  def get_choice_schools
+    if schools = @student.choice_schools.select { |x| x.choice_rank.present? if x.choice_rank != 0 }.sort_by {|x| x.choice_rank }
+      @choice_schools = schools
+    elsif schools = @student.starred_schools.all
+      @choice_schools = schools
+    else
+      @choice_schools = []
+    end
+
+    @student.choice_schools.includes(:school).order(:sort_order).all.each do |student_school|
+      @choice_schools << student_school unless @choice_schools.include?(student_school)
+    end
+    respond_to do |format|
+      format.html
+    end
   end
 end

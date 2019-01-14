@@ -22,6 +22,8 @@
               %h3
                 = school.try(:[], :SchoolName)
 
+        = link_to "Re-Rank Schools", { :controller => :choice_schools, :action => :order, params: {re_rank: true}}, {id: 'continue-button', style: 'position:absolute;bottom:26%;background:#0077cf;' }
+      %br
       .light{ style: "font-style: italic; margin-top: 3em;" }
         If you have questions about using this site, please email
         = link_to "onlinechoiceforum@bostonpublicschools.org", "mailto:onlinechoiceforum@bostonpublicschools.org", target: "_blank"
