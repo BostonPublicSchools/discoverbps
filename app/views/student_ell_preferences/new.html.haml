@@ -1,6 +1,6 @@
 .search
   .logo.discover
-    %span{:aria => {hidden: 'true'}, :class => 'icon-DBPS-Dev-Assets-SRG-01'}
+    %span{aria: { hidden: 'true' }, class: 'icon-DBPS-Dev-Assets-SRG-01'}
   .search_header
     .title_bloc
       %h1
@@ -15,13 +15,11 @@
           %p.home_intro.yellow-buttons.light_blue.big
             = auto_link(TextSnippet.find('home-intro').text)
 
-
         .content
           %h2
             Does your child have specialized language needs?
 
           = form_tag student_ell_preferences_path, method: :post do
-
             %div{style: 'padding: 20px 0 0 15px;'}
               %p
                 = radio_button_tag '[student]ell_language', 'Cape Verdean', current_student.ell_language
@@ -49,7 +47,7 @@
               = submit_tag 'Next', disable_with: 'Working...', id: 'ell_next_button', class: 'orange_submit'
 
           .footnote.light
-            %p{style: "color: #ffffff; padding: 50px 0;"}
+            %p{style: 'color: #ffffff; padding: 50px 0;'}
               As part of the registration process, every applicant is asked to complete a Home Language Survey.
               The results of this Survey determine whether a child needs additional language assessment at our Newcomers Assessment and Counseling ￼￼Center.
               If this is the case, a child's school choices may expand beyond his/her Home Based options to include program ￼￼seats in a wider community cluster of schools.
@@ -80,7 +78,7 @@
           .event
             %span.desktop
               %span.light_blue 
-              = registration_date_helper(RegistrationDate.where(name: "School Previews and School Showcases Start").first, "start_date_short")
+              = registration_date_helper(RegistrationDate.where(name: 'School Previews and School Showcases Start').first, 'start_date_short')
               %br/
               %span.W
                 School Previews and
@@ -100,7 +98,7 @@
           .event
             %span.desktop
               %span.light_blue 
-              = registration_date_helper(RegistrationDate.where(name: "Pre-Register").first, "start_date_short")
+              = registration_date_helper(RegistrationDate.where(name: 'Pre-Register').first, 'start_date_short')
               %br/
               %span.W
                 Pre-register
@@ -112,7 +110,6 @@
     -# CONTENT ---------------------
     %section.search_section.second
       = render partial: 'students/footer_links'
-
 
       -# TIMELINE ---------------------
       .content_right

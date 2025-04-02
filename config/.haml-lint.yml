@@ -1,0 +1,14 @@
+linters:
+  # Enables the linters for checking bad indentation or style
+  TrailingWhitespace:
+    enabled: true
+  Indentation:
+    enabled: true
+    width: 2
+    style: spaces
+  # Check for overuse of `= render`
+  DoublePercent:
+    enabled: true
+  # Ensure that HTML tags have no trailing whitespace
+  SpaceInsideAttributes:
+    enabled: true

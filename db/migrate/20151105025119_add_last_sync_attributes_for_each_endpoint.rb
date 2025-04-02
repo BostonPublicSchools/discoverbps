@@ -1,4 +1,7 @@
-class AddLastSyncAttributesForEachEndpoint < ActiveRecord::Migration
+# frozen_string_literal: true
+
+# This migration adds/changes fields in the respective table
+class AddLastSyncAttributesForEachEndpoint < ActiveRecord::Migration[5.2]
   def change
     add_column :schools, :last_sync_basic_info, :datetime
     add_column :schools, :last_sync_awards, :datetime

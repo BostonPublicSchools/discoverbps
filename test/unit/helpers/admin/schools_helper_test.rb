@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
-class Admin::SchoolsHelperTest < ActionView::TestCase
+module Admin
+  class SchoolsHelperTest < ActionView::TestCase
+  end
 end

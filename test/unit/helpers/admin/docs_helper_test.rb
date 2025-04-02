@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
-class Admin::DocsHelperTest < ActionView::TestCase
+module Admin
+  class DocsHelperTest < ActionView::TestCase
+  end
 end

@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
-class Admin::PreferencesHelperTest < ActionView::TestCase
+module Admin
+  class PreferencesHelperTest < ActionView::TestCase
+  end
 end

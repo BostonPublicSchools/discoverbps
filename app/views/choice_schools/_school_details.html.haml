@@ -3,48 +3,48 @@
     .school_photos.photos
       .principal
         .glass
-          %span{:aria => {hidden: 'true'}, :class => "icon-DBPS-Dev-Assets-SRG-29"}
+          %span{aria: { hidden: 'true' }, class: 'icon-DBPS-Dev-Assets-SRG-29'}
         = image_tag(school.api_photos.try(:[], 0).try(:[], :url), id: "#{school.bps_id}_photo_1")
 
         :javascript
           $("##{school.bps_id}_photo_1").click(function(){
-            $('#dialog_box').html("#{escape_javascript(render partial: 'schools/dialog_boxes/photo', locals: {school: school, photo_index: 0})}");
+            $('#dialog_box').html("#{escape_javascript(render(partial: 'schools/dialog_boxes/photo', locals: { school: school, photo_index: 0 }))}");
             $('#dialog_box').css({"top": $(window).scrollTop() + ($(window).height() / 10)});
             $('#dialog_box_screen').show();
             return false;
           });
 
       - if school.api_photos.try(:[], 1).present?
-        %div{id: "#{school.bps_id}_photo_2", class: "second small"}
+        %div{id: "#{school.bps_id}_photo_2", class: 'second small'}
           = image_tag(school.api_photos[1].try(:[], :url))
 
         :javascript
           $("##{school.bps_id}_photo_2").click(function(){
-            $('#dialog_box').html("#{escape_javascript(render partial: 'schools/dialog_boxes/photo', locals: {school: school, photo_index: 1})}");
+            $('#dialog_box').html("#{escape_javascript(render(partial: 'schools/dialog_boxes/photo', locals: { school: school, photo_index: 1 }))}");
             $('#dialog_box').css({"top": $(window).scrollTop() + ($(window).height() / 10)});
             $('#dialog_box_screen').show();
             return false;
           });
 
       - if school.api_photos.try(:[], 2).present?
-        %div{id: "#{school.bps_id}_photo_3", class: "third small"}
+        %div{id: "#{school.bps_id}_photo_3", class: 'third small'}
           = image_tag(school.api_photos[2].try(:[], :url))
 
         :javascript
           $("##{school.bps_id}_photo_3").click(function(){
-            $('#dialog_box').html("#{escape_javascript(render partial: 'schools/dialog_boxes/photo', locals: {school: school, photo_index: 2})}");
+            $('#dialog_box').html("#{escape_javascript(render(partial: 'schools/dialog_boxes/photo', locals: { school: school, photo_index: 2 }))}");
             $('#dialog_box').css({"top": $(window).scrollTop() + ($(window).height() / 10)});
             $('#dialog_box_screen').show();
             return false;
           });
 
       - if school.api_photos.try(:[], 3).present?
-        %div{id: "#{school.bps_id}_photo_4", class: "fourth small last"}
+        %div{id: "#{school.bps_id}_photo_4", class: 'fourth small last'}
           = image_tag(school.api_photos[3].try(:[], :url))
 
         :javascript
           $("##{school.bps_id}_photo_4").click(function(){
-            $('#dialog_box').html("#{escape_javascript(render partial: 'schools/dialog_boxes/photo', locals: {school: school, photo_index: 3})}");
+            $('#dialog_box').html("#{escape_javascript(render(partial: 'schools/dialog_boxes/photo', locals: { school: school, photo_index: 3 }))}");
             $('#dialog_box').css({"top": $(window).scrollTop() + ($(window).height() / 10)});
             $('#dialog_box_screen').show();
             return false;
@@ -58,26 +58,26 @@
       = school.full_address
       %br/
       - if school.api_basic_info.try(:[], :SchLink).present?
-        = link_to 'School Website', 'http://bostonpublicschools.org/Page/628', class: "text_B0", title: "School Website", target: "_blank"
+        = link_to 'School Website', 'http://bostonpublicschools.org/Page/628', class: 'text_B0', title: 'School Website', target: '_blank'
         %br/
 
-      = mail_to school.api_basic_info.try(:[], :schemail), school.api_basic_info.try(:[], :schemail), class: "text_B0", title: "Email Address"
+      = mail_to school.api_basic_info.try(:[], :schemail), school.api_basic_info.try(:[], :schemail), class: 'text_B0', title: 'Email Address'
 
     -# Travel Time
     %p.title
-      %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_distance"}
+      %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_distance'}
       = raw student_school.distance
       mi from home
     %p.descrip.light
-      %span{:aria => {hidden: 'true'}, :class => "icon icon_petit icon-DBPS-Dev-Assets-SRG-14"}
+      %span{aria: { hidden: 'true' }, class: 'icon icon_petit icon-DBPS-Dev-Assets-SRG-14'}
       = raw student_school.walk_time
       %br/
-      %span{:aria => {hidden: 'true'}, :class => "icon icon_petit icon-DBPS-Dev-Assets-SRG-17"}
+      %span{aria: { hidden: 'true' }, class: 'icon icon_petit icon-DBPS-Dev-Assets-SRG-17'}
       = raw student_school.drive_time
 
     -# School Hours
     %p.title
-      %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_schoolhours"}
+      %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_schoolhours'}
       School Hours
     %p.descrip.light
       = school.api_hours.try(:[], :Description)
@@ -85,7 +85,7 @@
     - if preview_dates_list_helper(school).present?
       -# Preview Dates
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_schoolhours"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_schoolhours'}
         Preview Dates
       %p.descrip.light
         (P) In-Person Session; (V) - Virtual Session <br/>
@@ -97,7 +97,7 @@
 
     -# Surround Care
     %p.title
-      %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_surroundcare"}
+      %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_surroundcare'}
       Surround Care
 
     %p.descrip.light
@@ -122,7 +122,7 @@
     -# Print Details
     %p.title.big.desktop_tablet
       = link_to print_school_path(school.slug, student_school_id: student_school.id), title: 'Print Details', class: 'text_B0' do
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Dev-Assets-SRG-28"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Dev-Assets-SRG-28'}
         Print Details
 
 
@@ -143,55 +143,55 @@
 
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_gradesoffered"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_gradesoffered'}
         Grades Offered
       %p.descrip.light
         = grade_levels_helper(school.grade_levels)
 
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_enrollment"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_enrollment'}
         = 'Demand Reports'
       %p.descrip.light
         See Seat and applicant data:
         %br/
-        = link_to 'Latest Demand Report', latest_demand_data('latest-demand-report'), target: "_blank", class: "text_B0"
+        = link_to 'Latest Demand Report', latest_demand_data('latest-demand-report'), target: '_blank', class: 'text_B0'
         %br/
-        = link_to 'Historic Demand Data', 'https://www.bostonpublicschools.org/Page/6484', target: '_blank', class: "text_B0"
+        = link_to 'Historic Demand Data', 'https://www.bostonpublicschools.org/Page/6484', target: '_blank', class: 'text_B0'
       .max_range
-        %div{class: 'ajust_range', style: "margin-left: 0; margin-right: 50%;"}
+        %div{class: 'ajust_range', style: 'margin-left: 0; margin-right: 50%;'}
 
       %p.title
         - unless TRANSITION_GRADES.include?(current_student.grade_level)
-          %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_enrollment"}
+          %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_enrollment'}
         School Size
       %p.descrip.light
         = school.api_basic_info.try(:[], :SchSize)
 
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_eligibility"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_eligibility'}
         Eligibility
       %p.descrip.light
         = student_school.eligibility
 
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_specialapplication"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_specialapplication'}
         Special Application
       %p.descrip.light
         = special_admissions_helper(student_school.special_admissions)
 
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_schoolawards"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_schoolawards'}
         Advanced Work Class (AWC)
       %p.descrip.light
         = awc_helper(school.api_basic_info.try(:[], :IsAWC))
 
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_mcastier"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_mcastier'}
         Quality Tier
       %p.descrip.light
         BPS Quality Tier :  
@@ -199,7 +199,7 @@
         = student_school.tier_explanation if student_school.tier_explanation.present?
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_uniformpolicy"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_uniformpolicy'}
         Uniform Policy
       - if school.api_description.try(:[], :uniformpolicydesc).present?
         %p.descrip.light
@@ -210,42 +210,42 @@
 
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_schoolfocus"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_schoolfocus'}
         School Focus
       %p.descrip.light
         = school.api_description.try(:[], :schfocus)
 
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_schooltype"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_schooltype'}
         Programs
       %p.descrip.light
         = programs_list_helper(school).try(:join, ', ')
 
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_facilityfeatures"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_facilityfeatures'}
         Facility Features
       %p.descrip.light
         = facilities_list_helper(school).try(:join, ', ')
 
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_healthandwellness"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_healthandwellness'}
         Student Support
       %p.descrip.light
-        =raw student_support_list_helper(school).try(:join, ', ')
+        = raw student_support_list_helper(school).try(:join, ', ')
 
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_sports"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_sports'}
         Sports
       %p.descrip.light
         = sports_list_helper(school).try(:join, ', ')
 
     .box
       %p.title
-        %span{:aria => {hidden: 'true'}, :class => "icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_communitypartners"}
+        %span{aria: { hidden: 'true' }, class: 'icon fit_icon icon-DBPS-Preferences-Icons-20130930-SRG_communitypartners'}
         Community Partners
       %p.descrip.light
         = partners_list_helper(school).try(:join, ', ')

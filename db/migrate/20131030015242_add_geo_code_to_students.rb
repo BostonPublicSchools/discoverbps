@@ -1,5 +1,8 @@
-class AddGeoCodeToStudents < ActiveRecord::Migration
+# frozen_string_literal: true
+
+# This migration adds/changes fields in the respective table
+class AddGeoCodeToStudents < ActiveRecord::Migration[5.2]
   def change
-  	add_column :students, :geo_code, :string
+    add_column :students, :geo_code, :string
   end
 end

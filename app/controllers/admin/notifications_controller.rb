@@ -1,49 +1,51 @@
+# frozen_string_literal: true
+
 class Admin::NotificationsController < ApplicationController
-	before_filter :authenticate_admin!
-	layout 'admin'
+  before_action :authenticate_admin!
+  before_action :set_notification, only: %i[edit update destroy]
+  layout 'admin'
 
-	def index
-		@notifications = Notification.order('start_time DESC')
-	end
+  def index
+    @notifications = Notification.order(start_time: :desc)
+  end
 
-	def new
-		@notification = Notification.new
-	end
+  def new
+    @notification = Notification.new
+  end
 
   def create
-    @notification = Notification.new(params[:notification])
+    @notification = Notification.new(notification_params)
 
-    respond_to do |format|
-      if @notification.save
-        format.html { redirect_to admin_notifications_url, notice: 'Notification was successfully created.' }
-      else
-        format.html { render action: "new" }
-      end
+    if @notification.save
+      redirect_to admin_notifications_url, notice: 'Notification was successfully created.'
+    else
+      render :new
     end
   end
 
-	def edit
-		@notification = Notification.find(params[:id])
-	end
+  def edit; end
 
-	def update
-		@notification = Notification.find(params[:id])
-
-    respond_to do |format|
-      if @notification.update_attributes(params[:notification])
-        format.html { redirect_to admin_notifications_url, notice: 'Notification was successfully updated.' }
-      else
-        format.html { render action: "edit" }
-      end
+  def update
+    if @notification.update(notification_params)
+      redirect_to admin_notifications_url, notice: 'Notification was successfully updated.'
+    else
+      render :edit
     end
-	end
+  end
 
-	def destroy
-    @notification = Notification.find(params[:id])
+  def destroy
     @notification.destroy
+    redirect_to admin_notifications_url, notice: 'Notification was successfully deleted.'
+  end
 
-    respond_to do |format|
-      format.html { redirect_to admin_notifications_url }
-    end
+  private
+
+  def set_notification
+    @notification = Notification.find(params[:id])
+  end
+
+  def notification_params
+    params.require(:notification).permit(:end_time, :message, :start_time, :home_page, :schools_page,
+                                         :school_choice_pages)
   end
 end

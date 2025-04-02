@@ -1,7 +1,7 @@
-class StudentsController < ApplicationController
+# frozen_string_literal: true
 
-  def new
-  end
+class StudentsController < ApplicationController
+  def new; end
 
   def create
     if params[:student].present? && params[:student][:grade_level].present? && params[:student][:street_number].present? && params[:student][:street_name].present? && params[:student][:zipcode].present?
@@ -13,13 +13,20 @@ class StudentsController < ApplicationController
       street_name   = params[:student][:street_name]
       zipcode       = params[:student][:zipcode]
 
-      street_number_numeric = (true if Integer(street_number) rescue false)
+      street_number_numeric = begin
+        true if Integer(street_number)
+      rescue StandardError
+        false
+      end
       zipcode_length = (zipcode.length == 5)
 
       if street_number_numeric && zipcode_length
         @student = get_or_set_student(current_user, first_name, last_name, grade_level)
 
-        params[:student][:sibling_school_ids] = School.where("name IN (?)", params[:student][:sibling_school_names].try(:compact).try(:reject, &:empty?)).collect {|x| x.bps_id}.uniq
+        params[:student][:sibling_school_ids] =
+          School.where('name IN (?)',
+                       params[:student][:sibling_school_names].try(:compact).try(:reject,
+                                                                                 &:empty?)).collect(&:bps_id).uniq
 
         api_response = Webservice.get_address_matches(street_number, street_name, zipcode, SERVICE_CLIENT_CODE)
         @addresses = api_response
@@ -28,32 +35,32 @@ class StudentsController < ApplicationController
     end
 
     respond_to do |format|
-      if @addresses.present? && @student.present? && @student.update_attributes(params[:student])
+      if @addresses.present? && @student.present? && @student.update(student_params)
         # @student.update_attributes(latitude: api_response[0][:Latitude], longitude: api_response[0][:Longitude])
         session[:current_student_id] = @student.id
-        format.js { render template: "student_addresses/new" }
+        format.js { render template: 'student_addresses/new' }
         format.html { redirect_to new_student_address_path }
       else
         if api_response.present?
           if @errors.present?
             @error_message = @errors
-            flash[:alert] = "There were problems with your search. Please enter the required fields and try again."
+            flash[:alert] = 'There were problems with your search. Please enter the required fields and try again.'
           else
             @error_message = "We couldn't find any addresses in Boston that match your search. Please try again."
             flash[:alert] = "We couldn't find any addresses in Boston that match your search. Please try again."
           end
         elsif street_number_numeric == false
-          @error_message = "Street number must be a number. Please try again."
-          flash[:alert] = "Street number must be a number. Please try again."
+          @error_message = 'Street number must be a number. Please try again.'
+          flash[:alert] = 'Street number must be a number. Please try again.'
         elsif zipcode_length == false
-          @error_message = "Zip code must be a 5-digit number. Please try again."
-          flash[:alert] = "Zip code must be a 5-digit number. Please try again."
+          @error_message = 'Zip code must be a 5-digit number. Please try again.'
+          flash[:alert] = 'Zip code must be a 5-digit number. Please try again.'
         else
-          @error_message = "Address could not be found OR required search fields are missing"
-          flash[:alert] = "Address could not be found OR required search fields are missing"
+          @error_message = 'Address could not be found OR required search fields are missing'
+          flash[:alert] = 'Address could not be found OR required search fields are missing'
         end
 
-        format.js { render template: "students/errors/errors" }
+        format.js { render template: 'students/errors/errors' }
         format.html { redirect_to root_url }
       end
     end
@@ -71,20 +78,20 @@ class StudentsController < ApplicationController
     @errors = api_response.blank? || api_response[0].blank?
 
     respond_to do |format|
-      if @addresses.present? && @student.update_attributes(params[:student])
+      if @addresses.present? && @student.update(student_params)
         session[:current_student_id] = @student.id
 
-        format.js { render template: "student_addresses/new" }
+        format.js { render template: 'student_addresses/new' }
         format.html { redirect_to new_student_address_path }
       else
         if @addresses.blank?
-          if @errors.present?
-            @error_message = @errors
-          else
-            @error_message = "We couldn't find any addresses in Boston that match your search. Please try again."
-          end
+          @error_message = if @errors.present?
+                             @errors
+                           else
+                             "We couldn't find any addresses in Boston that match your search. Please try again."
+                           end
         end
-        format.js { render template: "students/errors/errors" }
+        format.js { render template: 'students/errors/errors' }
         flash[:alert] = 'There were problems with your search. Please complete the required fields and try again.'
         format.html { redirect_to root_url }
       end
@@ -113,23 +120,27 @@ class StudentsController < ApplicationController
 
   def remove_notification
     logger.info params
-    if session[:removed_notifications].present?
-      session[:removed_notifications] << params[:notification_id]
-      session[:removed_notifications].uniq!
-    else
-      session[:removed_notifications] = []
-      session[:removed_notifications] << params[:notification_id]
-      session[:removed_notifications].uniq!
-    end
+    session[:removed_notifications] = [] unless session[:removed_notifications].present?
+    session[:removed_notifications] << params[:notification_id]
+    session[:removed_notifications].uniq!
     render nothing: true
   end
 
   def switch_current
     session[:student_id] = params[:id]
-    redirect_to(:back)
+    redirect_back(fallback_location: root_path)
   end
 
   private
+
+  def student_params
+    params.require(:student).permit(
+      :first_name, :last_name, :grade_level, :street_number, :street_name,
+      :neighborhood, :zipcode, :address_verified, :latitude, :longitude,
+      :session_id, :session_token, :student_id, :addressid, :geo_code, :awc_invitation,
+      :ranked, :ranked_at, :student_caseid, preference_ids: [], school_ids: []
+    )
+  end
 
   def get_or_set_student(current_user, first_name, last_name, grade_level)
     if current_user.present?
@@ -142,15 +153,13 @@ class StudentsController < ApplicationController
       end
     elsif session[:session_id].present?
       if first_name.present? && last_name.present?
-        Student.where(session_id: session[:session_id], first_name: first_name, last_name: last_name).first_or_initialize
+        Student.where(session_id: session[:session_id], first_name: first_name,
+                      last_name: last_name).first_or_initialize
       elsif first_name.present?
         Student.where(session_id: session[:session_id], first_name: first_name).first_or_initialize
       else
         Student.where(session_id: session[:session_id], grade_level: grade_level).first_or_initialize
       end
-    else
-      nil
     end
   end
-
 end

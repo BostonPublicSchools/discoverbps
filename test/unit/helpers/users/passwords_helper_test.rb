@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
-class Users::PasswordsHelperTest < ActionView::TestCase
+module Users
+  class PasswordsHelperTest < ActionView::TestCase
+  end
 end

@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
-class Users::RegistrationsHelperTest < ActionView::TestCase
+module Users
+  class RegistrationsHelperTest < ActionView::TestCase
+  end
 end

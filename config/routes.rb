@@ -1,13 +1,19 @@
-DiscoverBPS::Application.routes.draw do
-  devise_for :admins, controllers: { sessions: "admin/sessions", registrations: "admin/registrations", passwords: "admin/passwords" }
+# frozen_string_literal: true
+
+Rails.application.routes.draw do
+  devise_for :admins,
+             controllers: { sessions: 'admin/sessions', registrations: 'admin/registrations',
+                            passwords: 'admin/passwords' }
   devise_scope :admin do
-    get "admin_sign_in", to: "admin/sessions#new"
-    get "admin_sign_out", to: "admin/sessions#destroy"
-    get "admin_sign_up", to: "admin/registrations#new"
-    get "admin_edit_registration", to: "admin/registrations#edit"
+    get 'admin_sign_in', to: 'admin/sessions#new'
+    get 'admin_sign_out', to: 'admin/sessions#destroy'
+    get 'admin_sign_up', to: 'admin/registrations#new'
+    get 'admin_edit_registration', to: 'admin/registrations#edit'
   end
 
-  devise_for :users, controllers: { sessions: "users/sessions", registrations: "users/registrations", omniauth_callbacks: "users/omniauth_callbacks", passwords: 'users/passwords' }
+  devise_for :users,
+             controllers: { sessions: 'users/sessions', registrations: 'users/registrations',
+                            omniauth_callbacks: 'users/omniauth_callbacks', passwords: 'users/passwords' }
 
   root to: 'students#new'
   match 'home' => 'students#new', via: :get
@@ -31,10 +37,10 @@ DiscoverBPS::Application.routes.draw do
     get 'switch_current', on: :member
   end
 
-  resources :student_addresses, only: [:new, :create]
-  resources :student_awc_preferences, only: [:new, :create]
-  resources :student_ell_preferences, only: [:new, :create]
-  resources :student_sped_preferences, only: [:new, :create]
+  resources :student_addresses, only: %i[new create]
+  resources :student_awc_preferences, only: %i[new create]
+  resources :student_ell_preferences, only: %i[new create]
+  resources :student_sped_preferences, only: %i[new create]
 
   resources :student_schools do
     post 'sort', on: :collection
@@ -52,7 +58,7 @@ DiscoverBPS::Application.routes.draw do
   end
 
   namespace :admin do
-    root to: "students#index"
+    root to: 'students#index'
     resources :admins
     resources :demand_data do
       delete 'delete_all', on: :collection

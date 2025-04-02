@@ -1,4 +1,7 @@
-class CreateTextSnippets < ActiveRecord::Migration
+# frozen_string_literal: true
+
+# This migration adds/changes fields in the respective table
+class CreateTextSnippets < ActiveRecord::Migration[5.2]
   def change
     create_table :text_snippets do |t|
       t.string :location

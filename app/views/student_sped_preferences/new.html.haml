@@ -1,6 +1,6 @@
 .search
   .logo.discover
-    %span{:aria => {hidden: 'true'}, :class => 'icon-DBPS-Dev-Assets-SRG-01'}
+    %span{aria: { hidden: 'true' }, class: 'icon-DBPS-Dev-Assets-SRG-01'}
   .search_header
     .title_bloc
       %h1
@@ -15,13 +15,11 @@
           %p.home_intro.yellow-buttons.light_blue.big
             = auto_link(TextSnippet.find('home-intro').text)
 
-
         .content
           %h2
             Does your child have an Individual Education Plan (IEP) for special education needs?
 
           = form_tag student_sped_preferences_path, method: :put do
-
             %div{style: 'padding: 20px 0 0 15px;'}
               %p
                 = radio_button_tag '[student]sped_needs', true, current_student.sped_needs == true
@@ -33,9 +31,8 @@
             .btn
               = submit_tag 'Next', disable_with: 'Working...', id: 'sped_next_button', class: 'orange_submit'
 
-
           .footnote.light
-            %p{style: "color: #ffffff; padding: 50px 0;"}
+            %p{style: 'color: #ffffff; padding: 50px 0;'}
               For students with disabilities, placement in a school is determined by their Individualized Education Plan (IEP) and the availability of appropriate seats.
               While families are able to indicate school choices through the regular assignment process, placement decisions are made by Boston Public Schools’ IEP team.
               Students with low levels of need (i.e. Pull-Out or Push-In Resources) can have these needs met in any district school on their Home-Based List.
@@ -44,7 +41,7 @@
 
               %br
               %br
-              %a{:href => "https://www.bostonpublicschools.org/Page/6128"} Click here
+              %a{href: 'https://www.bostonpublicschools.org/Page/6128'} Click here
               to learn more about Boston Public Schools' special education programs.  You can also contact the Office of Specialized Services at 617-635-8599 or specialeducation@bostonpublicschools.org.
 
       -# TIMELINE ---------------------
@@ -72,7 +69,7 @@
           .event
             %span.desktop
               %span.light_blue 
-              = registration_date_helper(RegistrationDate.where(name: "School Previews and School Showcases Start").first, "start_date_short")
+              = registration_date_helper(RegistrationDate.where(name: 'School Previews and School Showcases Start').first, 'start_date_short')
               %br/
               %span.W
                 School Previews and
@@ -92,7 +89,7 @@
           .event
             %span.desktop
               %span.light_blue 
-              = registration_date_helper(RegistrationDate.where(name: "Pre-Register").first, "start_date_short")
+              = registration_date_helper(RegistrationDate.where(name: 'Pre-Register').first, 'start_date_short')
               %br/
               %span.W
                 Pre-register
@@ -104,7 +101,6 @@
     -# CONTENT ---------------------
     %section.search_section.second
       = render partial: 'students/footer_links'
-
 
       -# TIMELINE ---------------------
       .content_right

@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
-class Users::RegistrationsControllerTest < ActionController::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+module Users
+  class RegistrationsControllerTest < ActionController::TestCase
+    # test "the truth" do
+    #   assert true
+    # end
+  end
 end

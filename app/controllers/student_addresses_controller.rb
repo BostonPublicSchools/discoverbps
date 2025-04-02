@@ -1,5 +1,6 @@
-class StudentAddressesController < ApplicationController
+# frozen_string_literal: true
 
+class StudentAddressesController < ApplicationController
   def new
     if current_student
       street_number = current_student.street_number
@@ -16,7 +17,7 @@ class StudentAddressesController < ApplicationController
 
   def create
     student = current_student
-    address = response = MultiJson.load(params[:address], :symbolize_keys => true)
+    address = MultiJson.load(params[:address], symbolize_keys: true)
 
     student.address_verified = true
     student.street_number = address.try(:[], :Streetno)
@@ -37,10 +38,10 @@ class StudentAddressesController < ApplicationController
       if student.save!
         # if we don't need to ask about AWC, we can set the home schools now
         student.set_home_schools(nil)
-        format.js { render template: "student_ell_preferences/new" }
+        format.js { render template: 'student_ell_preferences/new' }
         format.html { redirect_to new_student_ell_preference_path }
       else
-        format.js { render template: "students/errors/errors" }
+        format.js { render template: 'students/errors/errors' }
         flash[:alert] = 'There were problems with your search. Please complete the required fields and try again.'
         format.html { redirect_to root_url }
       end

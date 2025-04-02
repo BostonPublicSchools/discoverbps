@@ -1,0 +1,30 @@
+# .rubocop.yml
+
+# Frozen string literal enforcement
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+# Documentation
+Style/Documentation:
+  Enabled: false
+  Include:
+    - '**/*.rb'
+
+# Indentation settings
+Layout/IndentationStyle:
+  EnforcedStyle: spaces
+  IndentationWidth: 2
+
+# Line length
+Layout/LineLength:
+  Max: 120
+  IgnoredPatterns:
+    - '^\s*#.*'  # Allow long comments (like documentation) on their own lines
+
+# Naming conventions (Example)
+Naming/ClassAndModuleCamelCase:
+  Enabled: true
+
+# Class and Module children indentation
+Style/ClassAndModuleChildren:
+  EnforcedStyle: nested

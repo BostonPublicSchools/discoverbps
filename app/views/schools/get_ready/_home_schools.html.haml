@@ -1,4 +1,4 @@
-%div{id: 'home_schools_list', class: "schools_list #{(params[:list_type] == 'zone' || params[:list_type] == 'ell' || params[:list_type] == 'sped') ? 'hidden' : ''}"}
+%div{id: 'home_schools_list', class: "schools_list #{['zone', 'ell', 'sped'].include?(params[:list_type]) ? 'hidden' : ''}"}
   .list_content
     .flexible_content
       - if @home_schools.present?
@@ -33,38 +33,38 @@
         %ul#sortable
           - @home_schools.each_with_index do |student_school, i|
             - school = student_school.school
-            %li{id: "#{current_student.id}_#{student_school.school.bps_id}", class: "list_row home_school #{i < 5 ? 'primary' : 'secondary'}", data: {index: "#{i + 1}"}}
-              %div{id: "#{current_student.id}_#{school.bps_id}_row", class: "li_frame"}
+            %li{id: "#{current_student.id}_#{student_school.school.bps_id}", class: "list_row home_school #{i < 5 ? 'primary' : 'secondary'}", data: { index: "#{i + 1}" }}
+              %div{id: "#{current_student.id}_#{school.bps_id}_row", class: 'li_frame'}
 
                 .desktop
                   .no_order.line
                     %span.sortable_row_number.middle
-                      = image_tag('star_starred.png', id: "star_#{student_school.id}_starred", class: 'star_starred', style: "display: #{student_school.starred? ? 'inline' : 'none'}; cursor: pointer;", data: {student_school_id: student_school.id})
-                      = image_tag('star_unstarred.png', id: "star_#{student_school.id}_unstarred", class: 'star_unstarred', style: "display: #{student_school.starred? ? 'none' : 'inline'}; cursor: pointer;", data: {student_school_id: student_school.id} )
+                      = image_tag('star_starred.png', id: "star_#{student_school.id}_starred", class: 'star_starred', style: "display: #{student_school.starred? ? 'inline' : 'none'}; cursor: pointer;", data: { student_school_id: student_school.id })
+                      = image_tag('star_unstarred.png', id: "star_#{student_school.id}_unstarred", class: 'star_unstarred', style: "display: #{student_school.starred? ? 'none' : 'inline'}; cursor: pointer;", data: { student_school_id: student_school.id })
 
                 .school_name.select.line
                   %span.middle
                     %span.sortable_school_name{style: 'font-size: 16px;'}
                       = school.name
                     - if current_student.sibling_school_ids.present? && current_student.sibling_school_ids.try(:include?, school.bps_id)
-                      %span{:aria => {hidden: 'true'}, :class => "select_icon icon-DBPS-Dev-Assets-SRG-12"}
+                      %span{aria: { hidden: 'true' }, class: 'select_icon icon-DBPS-Dev-Assets-SRG-12'}
 
                     - if school.api_basic_info.try(:[], :SchoolType).present? && school.api_basic_info.try(:[], :SchoolType) == 'Exam'
-                      %span{:aria => {hidden: 'true'}, :class => "select_icon icon-DBPS-Preferences-Icons-20130930-SRG_exam_school"}
+                      %span{aria: { hidden: 'true' }, class: 'select_icon icon-DBPS-Preferences-Icons-20130930-SRG_exam_school'}
 
                 .box.line.your_fit_icon
-                  %span{id: "#{current_student.id}_#{school.bps_id}_icons", class: "middle"}
+                  %span{id: "#{current_student.id}_#{school.bps_id}_icons", class: 'middle'}
                     - tag_counter = 0
                     - PreferenceCategory.active(current_student.grade_level).each do |category|
                       - category.active_preferences(current_student.grade_level).each do |preference|
                         - if school.has_preference?(preference)
                           - if current_student.preference_ids.try(:include?, preference.id)
-                            %span{:aria => {hidden: 'true'}, id: 'school_#{school.id}', data: {tags: '["#{preference.name}"]'}, :class => "icon category_icon preference_#{preference.id}_icon #{category.glyph_class}", title: "#{preference.name}"}
+                            %span{aria: { hidden: 'true' }, id: 'school_#{school.id}', data: { tags: '["#{preference.name}"]' }, class: "icon category_icon preference_#{preference.id}_icon #{category.glyph_class}", title: "#{preference.name}"}
                             - tag_counter += 1
                           - else
-                            %span{:aria => {hidden: 'true'}, id: "school_#{school.id}", data: {tags: '["#{preference.name}"]'}, :class => "icon category_icon preference_#{preference.id}_icon #{category.glyph_class}", style: "display: none;", title: "#{preference.name}"}
+                            %span{aria: { hidden: 'true' }, id: "school_#{school.id}", data: { tags: '["#{preference.name}"]' }, class: "icon category_icon preference_#{preference.id}_icon #{category.glyph_class}", style: 'display: none;', title: "#{preference.name}"}
 
-                    %span{id: "#{current_student.id}_#{school.bps_id}_icon_count", class: "sortable_fit fit_icon_count", style: "visibility: hidden;"}
+                    %span{id: "#{current_student.id}_#{school.bps_id}_icon_count", class: 'sortable_fit fit_icon_count', style: 'visibility: hidden;'}
                       = tag_counter
 
                 -# .box.line.your_fit_descrip
@@ -124,7 +124,7 @@
                 .school_descrip
                   .right_side
 
-                    = render partial: 'schools/learn/school_details', locals: {school: school, student_school: student_school}
+                    = render partial: 'schools/learn/school_details', locals: { school: school, student_school: student_school }
                 .clr
 
       - else

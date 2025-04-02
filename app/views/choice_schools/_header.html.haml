@@ -2,22 +2,22 @@
   .account_tab
     .language_box.menu_item
       .btn_account
-        %span.icon.icon-DBPS-Dev-Assets-SRG-34{ style: "font-size: 13px;" }
-        = link_to "Discover", root_url, class: "no-decoration"
+        %span.icon.icon-DBPS-Dev-Assets-SRG-34{ style: 'font-size: 13px;' }
+        = link_to 'Discover', root_url, class: 'no-decoration'
 
     = render partial: 'layouts/language_tab'
     = render partial: 'layouts/account_tab'
 
-.wrap.timeline_menu{ style: "margin-top: 0px;" }
+.wrap.timeline_menu{ style: 'margin-top: 0px;' }
   %section.logo_header.clearfix
     %nav.menu_nav
-      %span#menu_nav_mobile.icon-DBPS-Dev-Assets-SRG-25{ aria: { hidden: "true" } }
+      %span#menu_nav_mobile.icon-DBPS-Dev-Assets-SRG-25{ aria: { hidden: 'true' } }
 
     .logo_choose
       - token = params[:token] || current_student.try(:token)
       - caseid = params[:caseid] || current_student.try(:student_caseid)
-      %a{href: "/choice_schools?token=#{token}&caseid=#{caseid}", class:"no-decoration"}
-        %span.choose-icon{ aria: { hidden: "true" } }
+      %a{href: "/choice_schools?token=#{token}&caseid=#{caseid}", class: 'no-decoration'}
+        %span.choose-icon{ aria: { hidden: 'true' } }
 .clr
 
 :javascript

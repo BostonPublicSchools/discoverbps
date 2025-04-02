@@ -1,43 +1,42 @@
-= render partial: "header"
+= render partial: 'header'
 
 .wrap
-  = render partial: "student_tabs"
+  = render partial: 'student_tabs'
 .wrap
   .result
     #choice-layout
-      %h2{ style: "margin-bottom: 1em;" }
+      %h2{ style: 'margin-bottom: 1em;' }
         Summary
 
       .light
         %p
           Your ranked choices are as follows:
 
-        %ol{ style: "margin: 2em 0 2em 1.3em;" }
+        %ol{ style: 'margin: 2em 0 2em 1.3em;' }
           - @choice_schools.each do |school|
             %li
               %h3
                 = school.school.name
-                = "-"
+                = '-'
                 = school.program_code
 
-        = form_for(:schools, url: submit_choice_schools_path, html: {method: :post}) do |f|
+        = form_for(:schools, url: submit_choice_schools_path, html: { method: :post }) do |f|
           - if flash[:alert].present?
-            %h4.alert{ style: "margin-bottom: 14px;" }
+            %h4.alert{ style: 'margin-bottom: 14px;' }
               = flash[:alert]
           - else
-            %h4{ style: "margin-bottom: 14px;" }
+            %h4{ style: 'margin-bottom: 14px;' }
               Please type your full name into the text box below to attest that:
 
-          %p{ style: "margin: 0 0 20px 0;" }
+          %p{ style: 'margin: 0 0 20px 0;' }
             "I live at #{@student.full_address} and am a legal guardian of #{@student.full_name}"
 
-          = text_field_tag :parent_name, nil, placeholder: "Your Name"
+          = text_field_tag :parent_name, nil, placeholder: 'Your Name'
 
-
-          %h4{ style: "margin-top: 2em;" }
+          %h4{ style: 'margin-top: 2em;' }
             Also, please note that:
 
-          %ul{ style: "margin: 1.5em 0 1em 1em; font-size:small; list-style-type: square;"}
+          %ul{ style: 'margin: 1.5em 0 1em 1em; font-size:small; list-style-type: square;'}
             %li
               Students who are assigned to their first choice school are not eligible to be placed on any wait list.
             %li
@@ -47,13 +46,13 @@
             %br
               Please see our website for more information about waitlists: <a href="https://www.bostonpublicschools.org/waitlist" target="_blank">https://www.bostonpublicschools.org/waitlist</a>
 
-          %div{ style: "margin: 3em 0 3em 0;" }
-            %div{ style: "display: inline-block;" }
-              = link_to "Back", order_choice_schools_path, id: "back-button"
-            %div{ style: "display: inline-block;" }
-              = f.submit "Submit Choice List", id: "continue-button", data: { disable_with: 'Please wait...', confirm: "Are you ready to submit your official choice list to the school department?" }
+          %div{ style: 'margin: 3em 0 3em 0;' }
+            %div{ style: 'display: inline-block;' }
+              = link_to 'Back', order_choice_schools_path, id: 'back-button'
+            %div{ style: 'display: inline-block;' }
+              = f.submit 'Submit Choice List', id: 'continue-button', data: { disable_with: 'Please wait...', confirm: 'Are you ready to submit your official choice list to the school department?' }
 
-      .light{ style: "font-style: italic; margin-top: 3em;" }
+      .light{ style: 'font-style: italic; margin-top: 3em;' }
         If you have questions about using this site, please email
-        = link_to "onlinechoiceforum@bostonpublicschools.org", "mailto:onlinechoiceforum@bostonpublicschools.org", target: "_blank"
+        = link_to 'onlinechoiceforum@bostonpublicschools.org', 'mailto:onlinechoiceforum@bostonpublicschools.org', target: '_blank'
         for support.

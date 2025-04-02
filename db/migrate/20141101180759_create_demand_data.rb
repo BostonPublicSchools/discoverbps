@@ -1,4 +1,7 @@
-class CreateDemandData < ActiveRecord::Migration
+# frozen_string_literal: true
+
+# This migration adds/changes fields in the respective table
+class CreateDemandData < ActiveRecord::Migration[5.2]
   def change
     create_table :demand_data do |t|
       t.integer :school_id
@@ -12,7 +15,7 @@ class CreateDemandData < ActiveRecord::Migration
       t.integer :second_choice_applicants
       t.integer :third_choice_applicants
       t.integer :total_applicants
-      t.decimal :applicants_per_open_seat, :scale => 2
+      t.decimal :applicants_per_open_seat, scale: 2
       t.timestamps
     end
     add_index :demand_data, :school_id

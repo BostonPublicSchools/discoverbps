@@ -1,4 +1,7 @@
-require 'test_helper'
+# frozen_string_literal: true
 
-class Admin::SessionsHelperTest < ActionView::TestCase
+require 'test_helper'
+module Admin
+  class SessionsHelperTest < ActionView::TestCase
+  end
 end

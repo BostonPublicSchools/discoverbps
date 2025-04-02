@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 DiscoverBPS::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -67,16 +69,16 @@ DiscoverBPS::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  config.action_mailer.default_url_options = { :host => 'discover.bostonpublicschools.org' }
+  config.action_mailer.default_url_options = { host: 'discover.bostonpublicschools.org' }
 
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
-    :address        => "smtp.sendgrid.net",
-    :user_name      => ENV['SENDGRID_USERNAME'],
-    :password       => ENV['SENDGRID_PASSWORD'],
-    :domain         => 'discoverbps.org',
-    :port           => 587,
-    :authentication => :plain,
-    :enable_starttls_auto => true
+    address: 'smtp.sendgrid.net',
+    user_name: ENV['SENDGRID_USERNAME'],
+    password: ENV['SENDGRID_PASSWORD'],
+    domain: 'discoverbps.org',
+    port: 587,
+    authentication: :plain,
+    enable_starttls_auto: true
   }
 end

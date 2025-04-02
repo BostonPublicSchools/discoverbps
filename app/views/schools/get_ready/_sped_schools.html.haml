@@ -1,4 +1,4 @@
-%div{id: 'sped_schools_list', class: "schools_list #{params[:list_type] == 'sped' ? '' : 'hidden' }"}
+%div{id: 'sped_schools_list', class: "schools_list #{params[:list_type] == 'sped' ? '' : 'hidden'}"}
   .list_content
     .flexible_content
       - if @sped_schools.present?
@@ -19,20 +19,20 @@
 
 
         %ul#sortable
-          - @sped_schools.each_with_index do |student_school, i|
+          - @sped_schools.each_with_index do |student_school, _i|
             - school = student_school.school
-            %li{id: "#{current_student.id}_#{student_school.school.bps_id}", class: "list_row sped_school"}
-              %div{id: "#{current_student.id}_#{school.bps_id}_row", class: "li_frame"}
+            %li{id: "#{current_student.id}_#{student_school.school.bps_id}", class: 'list_row sped_school'}
+              %div{id: "#{current_student.id}_#{school.bps_id}_row", class: 'li_frame'}
 
                 .school_name.select.line
                   %span.middle
                     %span.sortable_school_name{style: 'font-size: 16px;'}
                       = school.name
                     - if current_student.sibling_school_ids.present? && current_student.sibling_school_ids.try(:include?, school.bps_id)
-                      %span{:aria => {hidden: 'true'}, :class => "select_icon icon-DBPS-Dev-Assets-SRG-12"}
+                      %span{aria: { hidden: 'true' }, class: 'select_icon icon-DBPS-Dev-Assets-SRG-12'}
 
                     - if school.api_basic_info.try(:[], :SchoolType).present? && school.api_basic_info.try(:[], :SchoolType) == 'Exam'
-                      %span{:aria => {hidden: 'true'}, :class => "select_icon icon-DBPS-Preferences-Icons-20130930-SRG_exam_school"}
+                      %span{aria: { hidden: 'true' }, class: 'select_icon icon-DBPS-Preferences-Icons-20130930-SRG_exam_school'}
 
                 .box.sped_descrip.line
                   .first_block.middle
@@ -45,7 +45,7 @@
                 .school_descrip
                   .right_side
 
-                    = render partial: 'schools/learn/school_details', locals: {school: school, student_school: student_school}
+                    = render partial: 'schools/learn/school_details', locals: { school: school, student_school: student_school }
                 .clr
 
 

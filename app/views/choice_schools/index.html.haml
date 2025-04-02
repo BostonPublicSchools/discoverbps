@@ -1,20 +1,20 @@
-= render partial: "header"
+= render partial: 'header'
 
 .wrap
   .result
     #choice-layout
       .light
-        %h2{ style: "margin-bottom: 1em;" }
+        %h2{ style: 'margin-bottom: 1em;' }
           School Choice #{SCHOOL_CHOICE_YEAR}
         - if flash[:alert].present?
           %h4.alert
             = flash[:alert]
             %br/
             %br/
-            %a{:href => "https://docs.google.com/document/d/1odT-wPvJ12sJG8IicROXCB9fJeFMK7hb-ZZTzQaNZWo/edit#bookmark=id.p3nefkgsax79", :style => 'color:#2636b5', :target => "_blank"} Need help with a code?
+            %a{href: 'https://docs.google.com/document/d/1odT-wPvJ12sJG8IicROXCB9fJeFMK7hb-ZZTzQaNZWo/edit#bookmark=id.p3nefkgsax79', style: 'color:#2636b5', target: '_blank'} Need help with a code?
         - elsif @RoundEndDate.present? && Time.now > Date.parse(@RoundEndDate)
           %h4.alert
-            As of #{Date.parse(@RoundEndDate).strftime("%B %d %Y")}, school choice process for the round is closed.  We are no longer accepting choices on this system. If you would like to submit choices for the #{SCHOOL_YEAR_CONTEXT} school year, please contact a Welcome Center.
+            As of #{Date.parse(@RoundEndDate).strftime('%B %d %Y')}, school choice process for the round is closed.  We are no longer accepting choices on this system. If you would like to submit choices for the #{SCHOOL_YEAR_CONTEXT} school year, please contact a Welcome Center.
         - elsif @notifications.present?
           - @notifications.each do |notification|
             %h4.alert
@@ -36,13 +36,13 @@
           Boston Public Schools
 
         %br/
-        = link_to "Continue", verify_choice_schools_path(token: params[:token], caseid: params[:caseid]), id: "continue-button"
+        = link_to 'Continue', verify_choice_schools_path(token: params[:token], caseid: params[:caseid]), id: 'continue-button'
 
-      .light{ style: "font-style: italic; margin-top: 3em;" }
+      .light{ style: 'font-style: italic; margin-top: 3em;' }
         For a guide to filling out your online choice form, please click
-        = link_to 'here', "#{PARENT_GUIDE_FORM}", :target => '_blank'
+        = link_to 'here', "#{PARENT_GUIDE_FORM}", target: '_blank'
         %br/
         %br/
         If you have questions about using this site, please email
-        = link_to "onlinechoiceforum@bostonpublicschools.org", "mailto:onlinechoiceforum@bostonpublicschools.org", target: "_blank"
+        = link_to 'onlinechoiceforum@bostonpublicschools.org', 'mailto:onlinechoiceforum@bostonpublicschools.org', target: '_blank'
         for support.

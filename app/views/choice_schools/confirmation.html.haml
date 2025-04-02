@@ -1,9 +1,9 @@
-= render partial: "header"
+= render partial: 'header'
 
 .wrap
   .result
     #choice-layout
-      %h2{ style: "margin-bottom: 1em;" }
+      %h2{ style: 'margin-bottom: 1em;' }
         Enter Confirmation Code
 
       .light
@@ -16,22 +16,20 @@
           %p
             Please enter the confirmation code into the form below and then click "Continue" at the bottom of the page.
 
-        = form_tag(authenticate_choice_schools_path(token: params[:token]), method: "post") do
+        = form_tag(authenticate_choice_schools_path(token: params[:token]), method: 'post') do
+          = text_field_tag :passcode, nil, placeholder: 'Confirmation Code', class: 'large-input'
 
-          = text_field_tag :passcode, nil, placeholder: "Confirmation Code", class: "large-input"
+          %div{ style: 'margin-top: 2em;' }
+            %div{ style: 'display: inline-block;' }
+              = link_to 'Back', verify_choice_schools_path(token: params[:token]), id: 'back-button'
+            %div{ style: 'display: inline-block;' }
+              = submit_tag :submit, id: 'continue-button', data: { disable_with: 'Please wait...' }
 
-          %div{ style: "margin-top: 2em;" }
-            %div{ style: "display: inline-block;" }
-              = link_to "Back", verify_choice_schools_path(token: params[:token]), id: "back-button"
-            %div{ style: "display: inline-block;" }
-              = submit_tag :submit, id: 'continue-button', data: { disable_with: "Please wait..." }
-
-        %div{ style: "margin-top: 1em;" }
+        %div{ style: 'margin-top: 1em;' }
           Didn't reveive a confirmation code?
-          = link_to "try again", verify_choice_schools_path(token: params[:token])
+          = link_to 'try again', verify_choice_schools_path(token: params[:token])
 
-
-      .light{ style: "font-style: italic; margin-top: 3em;" }
+      .light{ style: 'font-style: italic; margin-top: 3em;' }
         If you have questions about using this site, please email
-        = link_to "onlinechoiceforum@bostonpublicschools.org", "mailto:onlinechoiceforum@bostonpublicschools.org", target: "_blank"
+        = link_to 'onlinechoiceforum@bostonpublicschools.org', 'mailto:onlinechoiceforum@bostonpublicschools.org', target: '_blank'
         for support.

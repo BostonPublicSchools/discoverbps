@@ -1,22 +1,24 @@
-module SchoolData
+# frozen_string_literal: true
 
+module SchoolData
   ##### UPDATE BASIC INFO #####
 
-  def self.update_basic_info!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_basic_info!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_basic_info(school.bps_id)
       if response.present?
-        school.update_attributes(name: response[:schname_23], latitude: response[:Latitude], longitude: response[:Longitude], api_basic_info: response, last_sync: Time.now, last_sync_basic_info: Time.now)
+        school.update_attributes(name: response[:schname_23], latitude: response[:Latitude],
+                                 longitude: response[:Longitude], api_basic_info: response, last_sync: Time.now, last_sync_basic_info: Time.now)
       end
     end
   end
 
   ##### UPDATE AWARDS #####
 
-  def self.update_awards!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_awards!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_awards(school.bps_id)
@@ -28,8 +30,8 @@ module SchoolData
 
   ##### UPDATE DESCRIPTIONS #####
 
-  def self.update_descriptions!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_descriptions!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_description(school.bps_id)
@@ -41,8 +43,8 @@ module SchoolData
 
   ##### UPDATE FACILITIES #####
 
-  def self.update_facilities!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_facilities!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_facilities(school.bps_id)
@@ -54,8 +56,8 @@ module SchoolData
 
   ##### UPDATE GRADES #####
 
-  def self.update_grades!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_grades!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_grades(school.bps_id)
@@ -67,21 +69,19 @@ module SchoolData
 
   ##### UPDATE HOURS #####
 
-  def self.update_hours!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_hours!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_hours(school.bps_id)
-      if response.present?
-        school.update_attributes(api_hours: response, last_sync: Time.now, last_sync_hours: Time.now)
-      end
+      school.update_attributes(api_hours: response, last_sync: Time.now, last_sync_hours: Time.now) if response.present?
     end
   end
 
   ##### UPDATE LANGUAGES #####
 
-  def self.update_languages!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_languages!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_languages(school.bps_id)
@@ -93,21 +93,19 @@ module SchoolData
 
   ##### UPDATE PARTNERS #####
 
-  def self.update_partners!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_partners!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_partners(school.bps_id)
-      if response.present?
-        school.update_attributes(api_partners: response, last_sync_partners: Time.now)
-      end
+      school.update_attributes(api_partners: response, last_sync_partners: Time.now) if response.present?
     end
   end
 
   ##### UPDATE PHOTOS #####
 
-  def self.update_photos!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_photos!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_photos(school.bps_id)
@@ -119,8 +117,8 @@ module SchoolData
 
   ##### UPDATE PREVIEW DATES #####
 
-  def self.update_preview_dates!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_preview_dates!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_preview_dates(school.bps_id)
@@ -132,8 +130,8 @@ module SchoolData
 
   ##### UPDATE PROGRAMS #####
 
-  def self.update_programs!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_programs!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_programs(school.bps_id)
@@ -145,8 +143,8 @@ module SchoolData
 
   ##### UPDATE SPORTS #####
 
-  def self.update_sports!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_sports!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_sports(school.bps_id)
@@ -158,21 +156,22 @@ module SchoolData
 
   ##### UPDATE STUDENT SUPPORT #####
 
-  def self.update_student_support!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_student_support!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_student_support(school.bps_id)
       if response.present?
-        school.update_attributes(api_student_support: response, last_sync: Time.now, last_sync_student_support: Time.now)
+        school.update_attributes(api_student_support: response, last_sync: Time.now,
+                                 last_sync_student_support: Time.now)
       end
     end
   end
 
   ##### UPDATE OTHER PROGRAMS #####
 
-  def self.update_surround_care!(school_id=nil)
-    schools = self.find_schools(school_id)
+  def self.update_surround_care!(school_id = nil)
+    schools = find_schools(school_id)
 
     schools.each do |school|
       response = Webservice.get_surround_care(school.bps_id)
@@ -182,17 +181,13 @@ module SchoolData
     end
   end
 
-
-  private
-
-  def self.find_schools(school_id=nil)
+  def self.find_schools(school_id = nil)
     if school_id.present?
       schools = School.where(id: school_id)
       puts "************************ SchoolData.find_schools school_id = #{schools.first.id}"
-      return schools
+      schools
     else
       School.all
     end
   end
-
 end

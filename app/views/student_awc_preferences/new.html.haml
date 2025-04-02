@@ -1,6 +1,6 @@
 .search
   .logo.discover
-    %span{:aria => {hidden: 'true'}, :class => 'icon-DBPS-Dev-Assets-SRG-01'}
+    %span{aria: { hidden: 'true' }, class: 'icon-DBPS-Dev-Assets-SRG-01'}
   .search_header
     .title_bloc
       %h1
@@ -15,12 +15,10 @@
           %p.home_intro.yellow-buttons.light_blue.big
             = auto_link(TextSnippet.find('home-intro').text)
 
-
         .content
           %h2 Has your child been invited to the Advanced Work Class (AWC) Program?
 
           = form_tag student_awc_preferences_path, method: :post do
-
             %p
               = radio_button_tag '[student]awc_invitation', true, current_student.awc_invitation == true
               Yes
@@ -32,7 +30,7 @@
               = submit_tag 'Next', disable_with: 'Working...', id: 'awc_next_button', class: 'orange_submit'
 
           .footnote.light
-            %p{style: "color: #565656;"}
+            %p{style: 'color: #565656;'}
               Advanced Work Class (AWC) is a full-time program in the Boston Public Schools that provides an accelerated academic curriculum for students in grades 4, 5 and 6.
               By responding “Yes” above, this tool will include AWC schools in your student’s list.
               However, only students that have been formally invited to AWC will have these schools appear on their actual registration form.
@@ -62,7 +60,7 @@
           .event
             %span.desktop
               %span.light_blue
-                =registration_date_helper(RegistrationDate.where(name: "School Previews and School Showcases Start").first, "start_date_short")
+                = registration_date_helper(RegistrationDate.where(name: 'School Previews and School Showcases Start').first, 'start_date_short')
               %br/
               %span.W
                 School Previews and
@@ -82,7 +80,7 @@
           .event
             %span.desktop
               %span.light_blue 
-              =registration_date_helper(RegistrationDate.where(name: "Pre-Register").first, "start_date_short")
+              = registration_date_helper(RegistrationDate.where(name: 'Pre-Register').first, 'start_date_short')
               %br/
               %span.W
                 Pre-register
@@ -94,7 +92,6 @@
     -# CONTENT ---------------------
     %section.search_section.second
       = render partial: 'students/footer_links'
-
 
       -# TIMELINE ---------------------
       .content_right

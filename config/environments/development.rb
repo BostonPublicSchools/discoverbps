@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 DiscoverBPS::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -28,7 +30,7 @@ DiscoverBPS::Application.configure do
   # config.action_dispatch.best_standards_support = :builtin
 
   # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
+  # config.active_record.mass_assignment_sanitizer = :strict
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
@@ -42,9 +44,8 @@ DiscoverBPS::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = false
 
-  config.assets.precompile += %w( .svg .eot .woff .ttf )
+  config.assets.precompile += %w[.svg .eot .woff .ttf]
 
   # config.action_mailer.delivery_method = :letter_opener
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
-
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
 end

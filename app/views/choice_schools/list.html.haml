@@ -4,7 +4,7 @@
   = render partial: 'student_tabs'
 
 .wrap.global_map
-  = render partial: 'map', locals: {students_list: [@student], school: nil, map_controls: true, resize: true, width: '100%'}
+  = render partial: 'map', locals: { students_list: [@student], school: nil, map_controls: true, resize: true, width: '100%' }
 
 .wrap
   .result
@@ -13,17 +13,16 @@
     #school_list
       = render partial: 'schools'
 
-      %div{ style: "margin: 3em 0 3em 0;" }
-        %div{ style: "display: inline-block;" }
-          = link_to "Back", confirmation_choice_schools_path(token: current_student.token), id: "back-button"
+      %div{ style: 'margin: 3em 0 3em 0;' }
+        %div{ style: 'display: inline-block;' }
+          = link_to 'Back', confirmation_choice_schools_path(token: current_student.token), id: 'back-button'
         - if @student.choice_schools.present?
-          %div{ style: "display: inline-block;" }
-            = link_to "Continue", order_choice_schools_path, id: "continue-button"
+          %div{ style: 'display: inline-block;' }
+            = link_to 'Continue', order_choice_schools_path, id: 'continue-button'
 
-
-      .light{ style: "font-style: italic; margin-top: 3em;" }
+      .light{ style: 'font-style: italic; margin-top: 3em;' }
         If you have questions about using this site, please email
-        = link_to "onlinechoiceforum@bostonpublicschools.org", "mailto:onlinechoiceforum@bostonpublicschools.org", target: "_blank"
+        = link_to 'onlinechoiceforum@bostonpublicschools.org', 'mailto:onlinechoiceforum@bostonpublicschools.org', target: '_blank'
         for support.
 
 
@@ -67,7 +66,7 @@
     })
 
     $("#sign_up_button").click(function(){
-      $('#dialog_box').html("#{escape_javascript(render partial: 'schools/dialog_boxes/signup')}");
+      $('#dialog_box').html("#{escape_javascript(render(partial: 'schools/dialog_boxes/signup'))}");
       $('#dialog_box').css({"top": $(window).scrollTop() + ($(window).height() / 10)});
       $('#signup_panel').show();
       $('#dialog_box').show();
@@ -75,7 +74,7 @@
     });
 
     $("#login_button").click(function(){
-      $('#dialog_box').html("#{escape_javascript(render partial: 'schools/dialog_boxes/login')}");
+      $('#dialog_box').html("#{escape_javascript(render(partial: 'schools/dialog_boxes/login'))}");
       $('#dialog_box').css({"top": $(window).scrollTop() + ($(window).height() / 10)});
       $('#login_panel').show();
       $('#dialog_box').show();

@@ -1,8 +1,8 @@
 .menu_compare_name
-  %div{class: "f", style: "width: 100%;"}
+  %div{class: 'f', style: 'width: 100%;'}
     .name_list
-      - current_user_students.each_with_index do |student, i|
-        = render partial: 'layouts/schools/student_tab', locals: {student: student}
+      - current_user_students.each_with_index do |student, _i|
+        = render partial: 'layouts/schools/student_tab', locals: { student: student }
 
     .add_child
       + Add a child
@@ -13,7 +13,7 @@
         return false;
       });
       $(".add_child").click(function(){
-        $('#dialog_box').html("#{escape_javascript(render partial: 'students/address_search')}");
+        $('#dialog_box').html("#{escape_javascript(render(partial: 'students/address_search'))}");
         $('#dialog_box').css({"top": $(window).scrollTop() + ($(window).height() / 10)});
         $('#dialog_box').show();
         return false;

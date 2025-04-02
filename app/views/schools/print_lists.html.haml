@@ -1,5 +1,5 @@
 .wrap.global_map{style: 'margin-top: 30px; padding: 0px;'}
-  = render partial: 'layouts/schools/map', locals: {students_list: [current_student], school: nil, map_controls: false, width: '100%'}
+  = render partial: 'layouts/schools/map', locals: { students_list: [current_student], school: nil, map_controls: false, width: '100%' }
 
 .wrap.result
   #school_list{style: 'padding-top: 0px; color: #222222;'}
@@ -15,10 +15,10 @@
             #{current_student.full_address}
 
         - if @home_schools.present?
-          = render partial: 'schools/print/home_schools', locals: {schools: @home_schools}
+          = render partial: 'schools/print/home_schools', locals: { schools: @home_schools }
 
         - if @ell_schools.present?
-          = render partial: 'schools/print/ell_schools', locals: {schools: @ell_schools}
+          = render partial: 'schools/print/ell_schools', locals: { schools: @ell_schools }
 
         - if @sped_schools.present?
-          = render partial: 'schools/print/sped_schools', locals: {schools: @sped_schools}
+          = render partial: 'schools/print/sped_schools', locals: { schools: @sped_schools }

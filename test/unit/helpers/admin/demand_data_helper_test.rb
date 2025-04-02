@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
-class Admin::DemandDataHelperTest < ActionView::TestCase
+module Admin
+  class DemandDataHelperTest < ActionView::TestCase
+  end
 end

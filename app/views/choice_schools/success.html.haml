@@ -1,11 +1,11 @@
-= render partial: "header"
+= render partial: 'header'
 
 .wrap
-  = render partial: "student_tabs"
+  = render partial: 'student_tabs'
 .wrap
   .result
     #choice-layout
-      %h2{ style: "margin-bottom: 1em;" }
+      %h2{ style: 'margin-bottom: 1em;' }
         Success
 
       .light
@@ -16,15 +16,15 @@
           %p
             Your choice list has been submitted. You will receive a confirmation email shortly.
 
-        %ol{ style: "margin: 2em 0 0 1.3em;" }
+        %ol{ style: 'margin: 2em 0 0 1.3em;' }
           - @choice_schools.each do |school|
             %li
               %h3
                 = school.try(:[], :SchoolName)
-                = "-"
+                = '-'
                 = school.try(:[], :ProgramCode)
 
-      .light{ style: "font-style: italic; margin-top: 3em;" }
+      .light{ style: 'font-style: italic; margin-top: 3em;' }
         If you have questions about using this site, please email
-        = link_to "onlinechoiceforum@bostonpublicschools.org", "mailto:onlinechoiceforum@bostonpublicschools.org", target: "_blank"
+        = link_to 'onlinechoiceforum@bostonpublicschools.org', 'mailto:onlinechoiceforum@bostonpublicschools.org', target: '_blank'
         for support.

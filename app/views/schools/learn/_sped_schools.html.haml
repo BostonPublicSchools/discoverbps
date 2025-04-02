@@ -1,6 +1,6 @@
 %div{id: 'sped_schools_list', class: "schools_list #{params[:list_type] == 'sped' ? '' : 'hidden'}"}
   -# - if @sped_schools.present?
-  %div.light{ style: "margin: 0 3em 1em 0;" }
+  %div.light{ style: 'margin: 0 3em 1em 0;' }
     For students with disabilities, placement in a school is determined by their Individualized Education Plan (IEP)
     and the availability of appropriate seats. While families are able to indicate school choices
     through the regular assignment process, placement decisions are made by Boston Public Schools’ IEP team.
@@ -10,7 +10,7 @@
     %br/
     %br/
     %span.dark_blue
-      %a{:href => "https://www.bostonpublicschools.org/Page/6128"} Click here
+      %a{href: 'https://www.bostonpublicschools.org/Page/6128'} Click here
     to learn more about Boston Public Schools' special education programs.  You can also contact the Office of Specialized Services at
     %br
     617-635-8599 or
@@ -58,8 +58,6 @@
   -#               .box.sped_cluster.line
   -#                 .first_block.middle
   -#                   = student_school.sped_cluster
-  -#
-  -#
   -#               .school_descrip
   -#                 .right_side
   -#
@@ -68,8 +66,6 @@
   -#                   .clr
   -#
   -#                 .clr
-  -#
-  -#
   -#     - else
   -#       %div{style: 'margin: 3em 0 4em 0;'}
   -#         %h2

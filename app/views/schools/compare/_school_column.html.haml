@@ -1,10 +1,10 @@
-%li{id: "school_column_#{student_school.id}", class: "sortable_school #{i ==0 ? 'first' : ''} #{i == 4 ? 'last' : ''}"}
+%li{id: "school_column_#{student_school.id}", class: "sortable_school #{i == 0 ? 'first' : ''} #{i == 4 ? 'last' : ''}"}
   .li_frame.draggable
     - if list_type == 'home'
       .school_star.desktop.line
         %span
-          = image_tag('star_starred.png', id: "star_#{student_school.id}_starred", class: 'star_starred', style: "display: #{student_school.starred? ? 'inline' : 'none'}; cursor: pointer;", data: {student_school_id: student_school.id})
-          = image_tag('star_unstarred.png', id: "star_#{student_school.id}_unstarred", class: 'star_unstarred', style: "display: #{student_school.starred? ? 'none' : 'inline'}; cursor: pointer;", data: {student_school_id: student_school.id} )
+          = image_tag('star_starred.png', id: "star_#{student_school.id}_starred", class: 'star_starred', style: "display: #{student_school.starred? ? 'inline' : 'none'}; cursor: pointer;", data: { student_school_id: student_school.id })
+          = image_tag('star_unstarred.png', id: "star_#{student_school.id}_unstarred", class: 'star_unstarred', style: "display: #{student_school.starred? ? 'none' : 'inline'}; cursor: pointer;", data: { student_school_id: student_school.id })
 
     .school_name.line
       = school.name
@@ -14,20 +14,20 @@
         - category.active_preferences(current_student.grade_level).each do |preference|
           - if school.has_preference?(preference)
             - if current_student.preference_ids.try(:include?, preference.id)
-              %span{:aria => {hidden: 'true'}, id: "school_#{school.id}", data: {tags: "['#{preference.name}']"}, :class => "icon category_icon preference_#{preference.id}_icon #{category.glyph_class}", title: "#{preference.name}"}
+              %span{aria: { hidden: 'true' }, id: "school_#{school.id}", data: { tags: "['#{preference.name}']" }, class: "icon category_icon preference_#{preference.id}_icon #{category.glyph_class}", title: "#{preference.name}"}
             - else
-              %span{:aria => {hidden: 'true'}, id: "school_#{school.id}", data: {tags: "['#{preference.name}']"}, :class => "icon category_icon preference_#{preference.id}_icon #{category.glyph_class}", style: "display: none;", title: "#{preference.name}"}
+              %span{aria: { hidden: 'true' }, id: "school_#{school.id}", data: { tags: "['#{preference.name}']" }, class: "icon category_icon preference_#{preference.id}_icon #{category.glyph_class}", style: 'display: none;', title: "#{preference.name}"}
 
     .school_travel.line.light
-      -if student_school.walk_distance.present? && student_school.walk_distance.strip != '0.00'
-        #{spacer_helper(number_with_precision student_school.walk_distance, :precision => 2)}
+      - if student_school.walk_distance.present? && student_school.walk_distance.strip != '0.00'
+        #{spacer_helper(number_with_precision(student_school.walk_distance, precision: 2))}
         &nbsp;mi
-      -else  
-        #{spacer_helper(number_with_precision student_school.walk_distance, :precision => 2)}
+      - else
+        #{spacer_helper(number_with_precision(student_school.walk_distance, precision: 2))}
         &nbsp;mi
 
     .school_eligibility.line.light
-      =raw eligibility_helper(spacer_helper(student_school.eligibility))
+      = raw eligibility_helper(spacer_helper(student_school.eligibility))
 
     .school_hours.line.light
       = truncate(school.api_hours.try(:[], :Description), length: 40)

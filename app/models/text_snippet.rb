@@ -1,14 +1,15 @@
-class TextSnippet < ActiveRecord::Base
-	extend FriendlyId
-	friendly_id :location, use: :slugged
+# frozen_string_literal: true
 
-  attr_accessible :location, :text, :slug
+# This class is responsible TextSnippets
+class TextSnippet < ApplicationRecord
+  extend FriendlyId
+  friendly_id :location, use: :slugged
 
-	def text?
-		self.text.html_safe
-	end
+  def text?
+    text.html_safe
+  end
 
-	def self.find(obj)
-		friendly.find(obj)
-	end
+  def self.find(obj)
+    friendly.find(obj)
+  end
 end

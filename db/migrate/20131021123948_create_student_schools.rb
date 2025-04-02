@@ -1,4 +1,7 @@
-class CreateStudentSchools < ActiveRecord::Migration
+# frozen_string_literal: true
+
+# This migration adds/changes fields in the respective table
+class CreateStudentSchools < ActiveRecord::Migration[5.2]
   def change
     create_table :student_schools do |t|
       t.integer :student_id
