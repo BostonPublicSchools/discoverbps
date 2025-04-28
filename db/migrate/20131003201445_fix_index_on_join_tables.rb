@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class FixIndexOnJoinTables < ActiveRecord::Migration[5.2]
+class FixIndexOnJoinTables < ActiveRecord::Migration[7.1]
   def up
     drop_table :preferences_students
 
@@ -20,5 +20,6 @@ class FixIndexOnJoinTables < ActiveRecord::Migration[5.2]
     add_index :preferences_students, :student_id
   end
 
-  def down; end
+  def down
+  end
 end

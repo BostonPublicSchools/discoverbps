@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 # require 'rails/performance_test_help'
 
 class BrowsingTest < ActionDispatch::PerformanceTest
@@ -9,6 +9,6 @@ class BrowsingTest < ActionDispatch::PerformanceTest
   #                          :output => 'tmp/performance', :formats => [:flat] }
 
   def test_homepage
-    get '/'
+    get "/"
   end
 end

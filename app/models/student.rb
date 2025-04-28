@@ -4,15 +4,15 @@
 class Student < ApplicationRecord
   acts_as_paranoid
 
-  belongs_to :user
+  belongs_to :user, optional: true
   has_and_belongs_to_many :preferences, -> { distinct }, after_add: :count_preferences, after_remove: :count_preferences
   has_many :student_schools, -> { distinct }
   has_many :schools, through: :student_schools
-  has_many :choice_schools, -> { where('school_type = ?', 'choice') }, class_name: 'StudentSchool'
-  has_many :home_schools, -> { where('school_type = ?', 'home') }, class_name: 'StudentSchool'
-  has_many :ell_schools, -> { where('school_type = ?', 'ell') }, class_name: 'StudentSchool'
-  has_many :sped_schools, -> { where('school_type = ?', 'sped') }, class_name: 'StudentSchool'
-  has_many :starred_schools, -> { where('starred = ?', true) }, class_name: 'StudentSchool'
+  has_many :choice_schools, -> { where("school_type = ?", "choice") }, class_name: "StudentSchool"
+  has_many :home_schools, -> { where("school_type = ?", "home") }, class_name: "StudentSchool"
+  has_many :ell_schools, -> { where("school_type = ?", "ell") }, class_name: "StudentSchool"
+  has_many :sped_schools, -> { where("school_type = ?", "sped") }, class_name: "StudentSchool"
+  has_many :starred_schools, -> { where("starred = ?", true) }, class_name: "StudentSchool"
 
   scope :verified, -> { where(address_verified: true) }
   # TODO: remove since rails 5 no longer support, but kept for testing
@@ -33,8 +33,10 @@ class Student < ApplicationRecord
 
   # validates :street_number, :street_name, :zipcode, :grade_level, presence: true
   # validates :street_number, length: { maximum: 5 }
-  validates :grade_level, inclusion: { in: %w[K0 K1 K2 1 2 3 4 5 6 7 8 9 10 11 12],
-                                       message: '%<value>s is not valid' }
+  validates :grade_level, inclusion: {in: %w[K0 K1 K2 1 2 3 4 5 6 7 8 9 10 11 12],
+                                      message: "%<value>s is not valid"}
+
+  # validates :user, presence: true
 
   before_validation :format_grade_level
   before_save :strip_first_name, :strip_last_name, :strip_street_number, :strip_street_name, :strip_zipcode
@@ -72,7 +74,7 @@ class Student < ApplicationRecord
     elsif grade_level.present?
       "Grade #{grade_level}"
     else
-      'Anonymous'
+      "Anonymous"
     end
   end
 
@@ -89,7 +91,7 @@ class Student < ApplicationRecord
   end
 
   def formatted_grade_level
-    grade_level.to_s.length < 2 ? "0#{grade_level.try(:strip)}" : grade_level.try(:strip)
+    (grade_level.to_s.length < 2) ? "0#{grade_level.try(:strip)}" : grade_level.try(:strip)
   end
 
   def formatted_grade_level_name
@@ -101,24 +103,24 @@ class Student < ApplicationRecord
   end
 
   def set_choice_schools(schools_array)
-    save_student_schools(schools_array, 'choice')
+    save_student_schools(schools_array, "choice")
   end
 
   def set_home_schools(is_awc)
     api_schools = Webservice.get_home_schools(formatted_grade_level, addressid, sibling_school_ids,
-                                              SERVICE_CLIENT_CODE, is_awc)
-    save_student_schools(api_schools, 'home')
+      SERVICE_CLIENT_CODE, is_awc)
+    save_student_schools(api_schools, "home")
   end
 
   def set_ell_schools
     api_schools = Webservice.get_ell_schools(formatted_grade_level, addressid, ell_language,
-                                             SERVICE_CLIENT_CODE)
-    save_student_schools(api_schools, 'ell')
+      SERVICE_CLIENT_CODE)
+    save_student_schools(api_schools, "ell")
   end
 
   def set_sped_schools
     api_schools = Webservice.get_sped_schools(formatted_grade_level, addressid)
-    save_student_schools(api_schools, 'sped')
+    save_student_schools(api_schools, "sped")
   end
 
   def save_from_api_response(session_id, session_token, student_hash, caseid)
@@ -127,7 +129,7 @@ class Student < ApplicationRecord
     self.student_id = student_hash[:StudentID].try(:strip)
     self.first_name = student_hash[:FirstName].try(:strip)
     self.last_name = student_hash[:LastName].try(:strip)
-    self.grade_level = student_hash[:Grade].try(:strip).try(:gsub, /^0/, '')
+    self.grade_level = student_hash[:Grade].try(:strip).try(:gsub, /^0/, "")
     self.address_id = student_hash[:AddressID]
     self.street_number = student_hash[:Streetno].try(:strip)
     self.street_name = student_hash[:Street].try(:strip).try(:titleize)
@@ -156,47 +158,47 @@ class Student < ApplicationRecord
     # save the eligibility variables on student_schools, and collect the coordinates for the matrix search, below
     return false unless api_schools.present?
 
-    send("#{school_list_type}_schools".to_sym).clear
+    send(:"#{school_list_type}_schools").clear
     begin
-      update_column("#{school_list_type}_schools_json".to_sym, api_schools.to_json)
-    rescue StandardError
+      update_column(:"#{school_list_type}_schools_json", api_schools.to_json)
+    rescue
       nil
     end
 
     # create the student schools
 
-    school_coordinates = ''
+    school_coordinates = ""
     school_ids = []
     program_codes = []
     mid_codes = []
     school_names = []
 
-    if school_list_type == 'choice'
-      Rails.logger.info '****sorting**'
+    if school_list_type == "choice"
+      Rails.logger.info "****sorting**"
       api_schools.sort_by { |c| c[:SortOrder] }
     end
     api_schools.each do |api_school|
       # schoolId = (school_list_type == "choice" || school_list_type == "home") ? api_school[:SchoolLocalId] : api_school[:SchoolID]
       schoolId = if %w[choice home].include?(school_list_type)
-                   api_school[:SchoolLocalId]
-                 elsif school_list_type == 'ell'
-                   api_school[:SchoolId]
-                 else
-                   api_school[:SchoolID]
-                 end
+        api_school[:SchoolLocalId]
+      elsif school_list_type == "ell"
+        api_school[:SchoolId]
+      else
+        api_school[:SchoolID]
+      end
       school = School.where(bps_id: schoolId).first
       if %w[home ell].include?(school_list_type)
         if school.present? && !school_ids.include?(school.id)
           schools_with_school_list_type school, api_school, school_list_type, school_ids, school_coordinates
         end
-      elsif school_list_type == 'sped'
+      elsif school_list_type == "sped"
         if school.present? && (!school_ids.include?(school.id) || api_schools.map do |mid_code|
           true unless mid_codes.include?(mid_code[:MidCode])
         end)
           mid_codes.push(api_school[:MidCode])
           schools_with_school_list_type school, api_school, school_list_type, school_ids, school_coordinates
         end
-      elsif school_list_type == 'choice'
+      elsif school_list_type == "choice"
         if school.present? && (!school_ids.include?(school.id) || api_schools.map do |x|
           true if program_codes.include?(x[:ProgramId]) && school_names.include?(x[:SchoolName])
         end.include?(true))
@@ -210,7 +212,7 @@ class Student < ApplicationRecord
     # save distance, walk time and drive time on student_schools
     if longitude.present? && latitude.present?
       school_coordinates = school_coordinates.dup
-      school_coordinates.gsub!(/\|$/, '')
+      school_coordinates.gsub!(/\|$/, "")
 
       walk_matrix = Google.walk_times(latitude, longitude, school_coordinates)
       drive_matrix = Google.drive_times(latitude, longitude, school_coordinates)
@@ -218,15 +220,15 @@ class Student < ApplicationRecord
       api_schools.each_with_index do |api_school, i|
         # schoolId = (school_list_type == "choice" || school_list_type == "home") ? api_school[:SchoolLocalId] : api_school[:SchoolID]
         schoolId = if %w[choice home].include?(school_list_type)
-                     api_school[:SchoolLocalId]
-                   elsif school_list_type == 'ell'
-                     api_school[:SchoolId]
-                   else
-                     api_school[:SchoolID]
-                   end
+          api_school[:SchoolLocalId]
+        elsif school_list_type == "ell"
+          api_school[:SchoolId]
+        else
+          api_school[:SchoolID]
+        end
         school = School.where(bps_id: schoolId).first
         if %w[choice home].include?(school_list_type) && school.present?
-          school.update_attributes(latitude: api_school[:Latitude], longitude: api_school[:Longitude])
+          school.update(latitude: api_school[:Latitude], longitude: api_school[:Longitude])
         end
         next unless school.present?
 
@@ -263,7 +265,7 @@ class Student < ApplicationRecord
   end
 
   def strip_street_number
-    self.street_number = street_number.try(:strip).try(:gsub, /\D/, '')
+    self.street_number = street_number.try(:strip).try(:gsub, /\D/, "")
   end
 
   def strip_street_name

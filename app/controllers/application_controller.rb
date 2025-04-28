@@ -10,8 +10,8 @@ class ApplicationController < ActionController::Base
   private
 
   def enforce_https
-    if !request.ssl? && (request.domain == 'bostonpublicschools.org' && request.subdomain == 'discover')
-      redirect_to protocol: 'https://'
+    if !request.ssl? && (request.domain == "bostonpublicschools.org" && request.subdomain == "discover")
+      redirect_to protocol: "https://"
     end
     true
   end
@@ -31,14 +31,14 @@ class ApplicationController < ActionController::Base
     if session[:current_student_id].present?
       begin
         Student.find(session[:current_student_id])
-      rescue StandardError
+      rescue
         nil
       end
     elsif current_user_students.try(:first).present?
       session[:current_student_id] = current_user_students.first.id
       begin
         Student.find(session[:current_student_id])
-      rescue StandardError
+      rescue
         nil
       end
     end

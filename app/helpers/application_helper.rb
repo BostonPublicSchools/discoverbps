@@ -18,15 +18,15 @@ module ApplicationHelper
   #####
 
   def formatted_time(time)
-    time.strftime('%m/%d/%Y - %I:%M %P') if time.present?
+    time.strftime("%m/%d/%Y - %I:%M %P") if time.present?
   end
 
   def formatted_date(date)
-    date.strftime('%m/%d/%Y') if date.present?
+    date.strftime("%m/%d/%Y") if date.present?
   end
 
   def formatted_date_name(date)
-    "#{date.strftime('%B')} #{date.strftime('%d').to_i.ordinalize}" if date.present?
+    "#{date.strftime("%B")} #{date.strftime("%d").to_i.ordinalize}" if date.present?
   end
 
   def registration_date_helper(registration_date, format = nil)
@@ -35,30 +35,30 @@ module ApplicationHelper
     if rd.end_date.present?
       if rd.start_date.month != rd.end_date.month
         case format
-        when 'month_range'
-          "#{rd.start_date.strftime('%b')} - #{rd.end_date.strftime('%b')}"
-        when 'start_date_short'
-          "#{rd.start_date.strftime('%b')} #{rd.start_date.strftime('%d')}"
-        when 'start_date'
-          "#{rd.start_date.strftime('%B')} #{rd.start_date.strftime('%d')}"
+        when "month_range"
+          "#{rd.start_date.strftime("%b")} - #{rd.end_date.strftime("%b")}"
+        when "start_date_short"
+          "#{rd.start_date.strftime("%b")} #{rd.start_date.strftime("%d")}"
+        when "start_date"
+          "#{rd.start_date.strftime("%B")} #{rd.start_date.strftime("%d")}"
         else
-          "#{rd.start_date.strftime('%b %e')} - #{rd.end_date.strftime('%b %e')}"
+          "#{rd.start_date.strftime("%b %e")} - #{rd.end_date.strftime("%b %e")}"
         end
-      elsif format == 'start_date_short'
-        "#{rd.start_date.strftime('%b')} #{rd.start_date.strftime('%d')}"
+      elsif format == "start_date_short"
+        "#{rd.start_date.strftime("%b")} #{rd.start_date.strftime("%d")}"
       else
-        "#{rd.start_date.strftime('%b %e')}-#{rd.end_date.strftime('%e')}"
+        "#{rd.start_date.strftime("%b %e")}-#{rd.end_date.strftime("%e")}"
       end
-    elsif format == 'full_month'
-      "#{rd.start_date.strftime('%B')} #{rd.start_date.strftime('%e')}"
-    elsif format == 'full_month_date'
-      "#{rd.start_date.strftime('%b %e')} - #{rd.end_date.strftime('%b %e')}"
-    elsif format == 'start_date_short'
-      "#{rd.start_date.strftime('%b')} #{rd.start_date.strftime('%d')}"
-    elsif format == 'start_date'
-      "#{rd.start_date.strftime('%B')} #{rd.start_date.strftime('%d')}"
+    elsif format == "full_month"
+      "#{rd.start_date.strftime("%B")} #{rd.start_date.strftime("%e")}"
+    elsif format == "full_month_date"
+      "#{rd.start_date.strftime("%b %e")} - #{rd.end_date.strftime("%b %e")}"
+    elsif format == "start_date_short"
+      "#{rd.start_date.strftime("%b")} #{rd.start_date.strftime("%d")}"
+    elsif format == "start_date"
+      "#{rd.start_date.strftime("%B")} #{rd.start_date.strftime("%d")}"
     else
-      "#{rd.start_date.strftime('%b')} #{rd.start_date.strftime('%e')}"
+      "#{rd.start_date.strftime("%b")} #{rd.start_date.strftime("%e")}"
     end
   end
 
@@ -125,7 +125,7 @@ module ApplicationHelper
   end
 
   def transportation_eligibility_icon_helper(student_school, font_size)
-    font_size ||= '18px'
+    font_size ||= "18px"
     if %w[WY K].include?(student_school.transportation_eligibility)
       raw("<span aria-hidden='true' class='icon-DBPS-Dev-Assets-SRG-14 transportation_icon' style='font-size: #{font_size}; color: #565656;'></span>")
     elsif %w[SY C].include?(student_school.transportation_eligibility)
@@ -136,19 +136,19 @@ module ApplicationHelper
   end
 
   def progress_bar_class_helper(student_step, page_step, bar_step)
-    class_style_list = ''
+    class_style_list = ""
 
     if student_step.present? && page_step.present? && bar_step.present?
       # if the student's last touched page is the same as the step in question, make the step in progress
       if student_step == bar_step
-        class_style_list += 'in_progress '
+        class_style_list += "in_progress "
       # otherwise, if the student's last touched page is greater than the step in question, make the current step as complete
       elsif student_step > bar_step
-        class_style_list += 'complete '
+        class_style_list += "complete "
       end
 
       # if the current page is the same as the step in question, mark the step as current
-      class_style_list += 'current ' if page_step == bar_step
+      class_style_list += "current " if page_step == bar_step
     end
 
     class_style_list

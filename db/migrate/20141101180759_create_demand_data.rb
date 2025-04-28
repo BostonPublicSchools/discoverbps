@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class CreateDemandData < ActiveRecord::Migration[5.2]
+class CreateDemandData < ActiveRecord::Migration[7.1]
   def change
     create_table :demand_data do |t|
       t.integer :school_id

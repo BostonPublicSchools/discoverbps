@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class RemoveGradeLevelsFromPreferenceCategories < ActiveRecord::Migration[5.2]
+class RemoveGradeLevelsFromPreferenceCategories < ActiveRecord::Migration[7.1]
   def up
     remove_column :preference_categories, :grade_k0
     remove_column :preference_categories, :grade_k1

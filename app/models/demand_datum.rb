@@ -21,12 +21,12 @@ class DemandDatum < ApplicationRecord
 
   def calculate_applicants_per_open_seat!
     count = if total_applicants.present? && seats_before_round.present?
-              if total_applicants.zero? || seats_before_round.zero?
-                0
-              else
-                (total_applicants.to_f / seats_before_round)
-              end
-            end
+      if total_applicants.zero? || seats_before_round.zero?
+        0
+      else
+        (total_applicants.to_f / seats_before_round)
+      end
+    end
     self.applicants_per_open_seat = count.try(:round, 1)
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class AddGradeLevelsToPreferences < ActiveRecord::Migration[5.2]
+class AddGradeLevelsToPreferences < ActiveRecord::Migration[7.1]
   def change
     add_column :preferences, :grade_k0, :boolean, default: false
     add_column :preferences, :grade_k1, :boolean, default: false

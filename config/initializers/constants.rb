@@ -1,26 +1,32 @@
 # frozen_string_literal: true
 
-SCHOOL_YEAR = TextSnippet.find_by_location('School Year').try(:text)
-SCHOOL_CHOICE_YEAR = TextSnippet.find_by_slug('school-choice-year').try(:text)
-SCHOOL_YEAR_CONTEXT = TextSnippet.find_by_slug('school-year-context').try(:text)
-LEGACY_SCHOOL_YEAR = TextSnippet.find_by_slug('legacy-school-year').try(:text)
-AWC_GRADES = %w[4 5 6].freeze
-TRANSITION_GRADES = %w[K0 K1 K2 6 9].freeze
-NON_TRANSITION_GRADES = %w[1 2 3 4 5 7 8 10 11 12].freeze
-SURROUND_CARE_GRADES 	= %w[K0 K1 K2 1 2 3].freeze
-UPPER_GRADES = %w[6 7 8 9 10 11 12].freeze
-SCHOOL_SHOWCASE_DATE = 'Dec 3'
-HIGHSCHOOL_SHOWCASE_DATE = 'Dec 1'
-SCHOOL_PRE_REG_DATE = 'Dec'
-REG_ALL_GRADE = 'Feb 8'
-REG_ASSIGNMENT_MAILED = 'Mar - Jun'
-REG_TRANSITION_GRADE = 'Jan 3 - Feb 3'
-REG_TRANSITION_GRADE_LASTNAME_AI = 'Jan 3-6'
-REG_TRANSITION_GRADE_LASTNAME_JQ = 'Jan 9-13'
-REG_TRANSITION_GRADE_LASTNAME_RZ = 'Jan 16-20'
-REG_TRANSITION_GRADE_LASTNAME_ALL = 'Jan 23-27'
-FIRST_DAY_OF_SCHOOL = 'Sep 7'
-SERVICE_CLIENT_CODE = 'Discover'
-TYPE = 'Discover'
-BPS_HOTLINE = TextSnippet.find_by_slug('bps-hotline').try(:text)
-PARENT_GUIDE_FORM = TextSnippet.find_by_slug('parent-guide-form').try(:text)
+# Why: to_prepare block?
+# because constants.rb is being loaded before the TextSnippet model is available to the application.
+# In Rails, initializers are loaded before models are fully initialized, which can lead to this issue.
+
+Rails.application.config.to_prepare do
+  SCHOOL_YEAR = TextSnippet.find_by_location("School Year").try(:text)
+  SCHOOL_CHOICE_YEAR = TextSnippet.find_by_slug("school-choice-year").try(:text)
+  SCHOOL_YEAR_CONTEXT = TextSnippet.find_by_slug("school-year-context").try(:text)
+  LEGACY_SCHOOL_YEAR = TextSnippet.find_by_slug("legacy-school-year").try(:text)
+  AWC_GRADES = %w[4 5 6].freeze
+  TRANSITION_GRADES = %w[K0 K1 K2 6 9].freeze
+  NON_TRANSITION_GRADES = %w[1 2 3 4 5 7 8 10 11 12].freeze
+  SURROUND_CARE_GRADES = %w[K0 K1 K2 1 2 3].freeze
+  UPPER_GRADES = %w[6 7 8 9 10 11 12].freeze
+  SCHOOL_SHOWCASE_DATE = "Dec 3"
+  HIGHSCHOOL_SHOWCASE_DATE = "Dec 1"
+  SCHOOL_PRE_REG_DATE = "Dec"
+  REG_ALL_GRADE = "Feb 8"
+  REG_ASSIGNMENT_MAILED = "Mar - Jun"
+  REG_TRANSITION_GRADE = "Jan 3 - Feb 3"
+  REG_TRANSITION_GRADE_LASTNAME_AI = "Jan 3-6"
+  REG_TRANSITION_GRADE_LASTNAME_JQ = "Jan 9-13"
+  REG_TRANSITION_GRADE_LASTNAME_RZ = "Jan 16-20"
+  REG_TRANSITION_GRADE_LASTNAME_ALL = "Jan 23-27"
+  FIRST_DAY_OF_SCHOOL = "Sep 7"
+  SERVICE_CLIENT_CODE = "Discover"
+  TYPE = "Discover"
+  BPS_HOTLINE = TextSnippet.find_by_slug("bps-hotline").try(:text)
+  PARENT_GUIDE_FORM = TextSnippet.find_by_slug("parent-guide-form").try(:text)
+end

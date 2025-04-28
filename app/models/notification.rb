@@ -6,9 +6,9 @@ class Notification < ApplicationRecord
 
   def self.active(ids)
     if ids.blank?
-      where('start_time < ? AND end_time > ?', Time.current, Time.current)
+      where("start_time < ? AND end_time > ?", Time.current, Time.current)
     else
-      where('start_time < ? AND end_time > ? AND id NOT IN (?)', Time.current, Time.current, ids)
+      where("start_time < ? AND end_time > ? AND id NOT IN (?)", Time.current, Time.current, ids)
     end
   end
 
@@ -21,6 +21,6 @@ class Notification < ApplicationRecord
   def start_time_precedes_end_time
     return unless start_time.present? && end_time.present? && start_time >= end_time
 
-    errors.add(:start_time, 'must precede end time')
+    errors.add(:start_time, "must precede end time")
   end
 end

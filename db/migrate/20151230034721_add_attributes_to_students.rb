@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class AddAttributesToStudents < ActiveRecord::Migration[5.2]
+class AddAttributesToStudents < ActiveRecord::Migration[7.1]
   def change
     add_column :students, :student_id, :string
     add_column :students, :address_id, :string

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-if Rails.env == 'test'
-  require 'active_record/connection_adapters/postgresql/schema_statements'
+if Rails.env == "test"
+  require "active_record/connection_adapters/postgresql/schema_statements"
 
   #
   # Monkey-patch the refused Rails 4.2 patch at https://github.com/rails/rails/pull/31330
@@ -30,13 +30,13 @@ if Rails.env == 'test'
             max_pk = select_value("SELECT MAX(#{quote_column_name pk}) FROM #{quote_table_name(table)}")
             if max_pk.nil?
               minvalue = if postgresql_version >= 100_000
-                           select_value("SELECT seqmin FROM pg_sequence WHERE seqrelid = #{quote(quoted_sequence)}::regclass")
-                         else
-                           select_value("SELECT min_value FROM #{quoted_sequence}")
-                         end
+                select_value("SELECT seqmin FROM pg_sequence WHERE seqrelid = #{quote(quoted_sequence)}::regclass")
+              else
+                select_value("SELECT min_value FROM #{quoted_sequence}")
+              end
             end
 
-            select_value <<-END_SQL, 'SCHEMA'
+            select_value <<-END_SQL, "SCHEMA"
                     SELECT setval(#{quote(quoted_sequence)}, #{max_pk || minvalue}, #{max_pk || false})
             END_SQL
           end

@@ -2,7 +2,7 @@
 
 # This migration clears the user_id from the students table
 
-class ClearUserIdFromStudents < ActiveRecord::Migration[5.2]
+class ClearUserIdFromStudents < ActiveRecord::Migration[7.1]
   def up
     Student.all.each do |student|
       student.update_column(:old_user_id, student.user_id)

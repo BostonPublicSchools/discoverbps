@@ -2,7 +2,7 @@
 
 class Admin::DemandDataController < ApplicationController
   before_action :authenticate_admin!
-  layout 'admin'
+  layout "admin"
 
   def index
     @demand_data = DemandDatum.all
@@ -15,8 +15,8 @@ class Admin::DemandDataController < ApplicationController
   def create
     CSV.foreach(params[:file].path, headers: true) do |row|
       school = School.where(bps_id: row[0]).first
-      year = row[2].try(:strip).try(:gsub, /-.*/, '').try(:strip)
-      grade = row[3].try(:strip).try(:gsub, /^0/, '').try(:upcase)
+      year = row[2].try(:strip).try(:gsub, /-.*/, "").try(:strip)
+      grade = row[3].try(:strip).try(:gsub, /^0/, "").try(:upcase)
 
       if school.present? && year.present? && grade.present? && row[4].present? && (row[10].present? || (row[7].present? && row[8].present? && row[9].present?))
         DemandDatum.create(demand_datum_params(row, school))
@@ -24,7 +24,7 @@ class Admin::DemandDataController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to admin_demand_data_url, notice: 'Demand Data was successfully uploaded.' }
+      format.html { redirect_to admin_demand_data_url, notice: "Demand Data was successfully uploaded." }
     end
   end
 
@@ -37,9 +37,9 @@ class Admin::DemandDataController < ApplicationController
 
     respond_to do |format|
       if @demand_datum.update(demand_datum_params)
-        format.html { redirect_to admin_demand_data_url, notice: 'Demand Data was successfully updated.' }
+        format.html { redirect_to admin_demand_data_url, notice: "Demand Data was successfully updated." }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: "edit" }
       end
     end
   end
@@ -69,8 +69,8 @@ class Admin::DemandDataController < ApplicationController
       {
         school_id: school.id,
         bps_id: row[0],
-        year: row[2].try(:strip).try(:gsub, /-.*/, '').try(:strip),
-        grade_level: row[3].try(:strip).try(:gsub, /^0/, '').try(:upcase),
+        year: row[2].try(:strip).try(:gsub, /-.*/, "").try(:strip),
+        grade_level: row[3].try(:strip).try(:gsub, /^0/, "").try(:upcase),
         seats_before_round: row[4],
         seats_after_round: row[5],
         total_seats: row[6],

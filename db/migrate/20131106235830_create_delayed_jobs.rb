@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class CreateDelayedJobs < ActiveRecord::Migration[5.2]
+class CreateDelayedJobs < ActiveRecord::Migration[7.1]
   def self.up
     create_table :delayed_jobs, force: true do |table|
       table.integer :priority, default: 0 # Allows some jobs to jump to the front of the queue
@@ -16,7 +16,7 @@ class CreateDelayedJobs < ActiveRecord::Migration[5.2]
       table.timestamps
     end
 
-    add_index :delayed_jobs, %i[priority run_at], name: 'delayed_jobs_priority'
+    add_index :delayed_jobs, %i[priority run_at], name: "delayed_jobs_priority"
   end
 
   def self.down

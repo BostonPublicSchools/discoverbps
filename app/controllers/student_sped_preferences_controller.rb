@@ -15,8 +15,8 @@ class StudentSpedPreferencesController < ApplicationController
         format.html { redirect_to schools_path }
         format.js { render js: "window.location = '/schools'" }
       else
-        format.js { render template: 'student_sped_preferences/new' }
-        flash[:alert] = 'There were problems with your search. Please complete the required fields and try again.'
+        format.js { render template: "student_sped_preferences/new" }
+        flash[:alert] = "There were problems with your search. Please complete the required fields and try again."
         format.html { redirect_to root_url }
       end
     end

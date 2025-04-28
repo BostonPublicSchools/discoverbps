@@ -1,6 +1,6 @@
 class Admin::RegistrationDatesController < ApplicationController
   before_action :authenticate_admin!
-  layout 'admin'
+  layout "admin"
 
   def index
     @registration_dates = RegistrationDate.order(:start_date)
@@ -16,10 +16,10 @@ class Admin::RegistrationDatesController < ApplicationController
     respond_to do |format|
       if @registration_date.save
         format.html do
-          redirect_to admin_registration_dates_url, notice: 'Registration date was successfully created.'
+          redirect_to admin_registration_dates_url, notice: "Registration date was successfully created."
         end
       else
-        format.html { render action: 'new' }
+        format.html { render action: "new" }
       end
     end
   end
@@ -34,10 +34,10 @@ class Admin::RegistrationDatesController < ApplicationController
     respond_to do |format|
       if @registration_date.update(registration_date_params)
         format.html do
-          redirect_to admin_registration_dates_url, notice: 'Registration date was successfully updated.'
+          redirect_to admin_registration_dates_url, notice: "Registration date was successfully updated."
         end
       else
-        format.html { render action: 'edit' }
+        format.html { render action: "edit" }
       end
     end
   end

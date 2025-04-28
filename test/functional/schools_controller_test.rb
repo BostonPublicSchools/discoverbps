@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 # ActionController::TestCase
 class SchoolsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @password = 'password'
+    @password = "password"
     @confirmed_user = User.create(email: "#{rand(50_000)}@example.com",
-                                  password: @password)
+      password: @password)
     # @unconfirmed_user = User.create(email: "#{rand(50000)}@example.com",
     #                                 password: @password )
 
     @school = schools(:one)
   end
 
-  test 'should get index' do
+  test "should get index" do
     sign_in(user: @confirmed_user, password: @password)
     get schools_path
     assert_response :success

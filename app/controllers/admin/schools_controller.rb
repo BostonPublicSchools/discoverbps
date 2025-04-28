@@ -2,7 +2,7 @@
 
 class Admin::SchoolsController < ApplicationController
   before_action :authenticate_admin!
-  layout 'admin'
+  layout "admin"
 
   def index
     @schools = School.order(:name)
@@ -22,10 +22,10 @@ class Admin::SchoolsController < ApplicationController
     respond_to do |format|
       if @school.save
         format.html do
-          redirect_to admin_schools_url, notice: 'School was successfully created. The API data is being synced.'
+          redirect_to admin_schools_url, notice: "School was successfully created. The API data is being synced."
         end
       else
-        format.html { render action: 'new' }
+        format.html { render action: "new" }
       end
     end
   end
@@ -43,7 +43,7 @@ class Admin::SchoolsController < ApplicationController
   def sync_all
     respond_to do |format|
       School.delay(priority: 10).sync_school_data!
-      format.html { redirect_to admin_schools_url, notice: 'School data is being synced from the API' }
+      format.html { redirect_to admin_schools_url, notice: "School data is being synced from the API" }
     end
   end
 
@@ -55,9 +55,9 @@ class Admin::SchoolsController < ApplicationController
     respond_to do |format|
       if @school.present?
         School.delay(priority: 5).sync_school_data!(@school.id)
-        format.html { redirect_to admin_school_url(@school), notice: 'School data is being synced from the API' }
+        format.html { redirect_to admin_school_url(@school), notice: "School data is being synced from the API" }
       else
-        format.html { render action: 'list', alert: "We couldn't find that school" }
+        format.html { render action: "list", alert: "We couldn't find that school" }
       end
     end
   end

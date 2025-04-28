@@ -12,7 +12,8 @@ module Google
   end
 
   def self.get_results(url)
-    escaped_url = URI.escape(url)
+    escaped_url = URI.parse(url)
+    escaped_url.query = URI.encode_www_form(URI.decode_www_form(escaped_url.query))
     response = Faraday.new(url: escaped_url).get.body
     json_response = MultiJson.load(response, symbolize_keys: true)
     json_response.try(:[], :rows).try(:[], 0).try(:[], :elements)

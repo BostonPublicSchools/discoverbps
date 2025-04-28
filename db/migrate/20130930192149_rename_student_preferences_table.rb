@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class RenameStudentPreferencesTable < ActiveRecord::Migration[5.2]
+class RenameStudentPreferencesTable < ActiveRecord::Migration[7.1]
   def up
     rename_table :student_preferences, :preferences_students
   end

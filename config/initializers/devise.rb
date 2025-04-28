@@ -6,13 +6,13 @@ Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
-  config.secret_key = '84dd1833990a2e6ba938b60890808059e42923ebcd106edd3965ba2695c31a79f17b2c75e3f25bed3cefb2360900a5fa6e926a244c454ab4dbc2581386642df8'
+  config.secret_key = "84dd1833990a2e6ba938b60890808059e42923ebcd106edd3965ba2695c31a79f17b2c75e3f25bed3cefb2360900a5fa6e926a244c454ab4dbc2581386642df8"
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'donotreply@discoverbps.org'
+  config.mailer_sender = "donotreply@discoverbps.org"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -21,7 +21,7 @@ Devise.setup do |config|
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -65,7 +65,7 @@ Devise.setup do |config|
 
   # If http headers should be returned for AJAX requests. True by default.
   config.http_authenticatable_on_xhr = false
-  config.navigational_formats = ['*/*', :html, :json]
+  config.navigational_formats = ["*/*", :html, :json]
 
   # The realm used in Http Basic Authentication. 'Application' by default.
   # config.http_authentication_realm = 'Application'
@@ -234,10 +234,10 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  require 'omniauth-facebook'
-  require 'omniauth-twitter'
-  config.omniauth :facebook, ENV['FACEBOOK_ID'], ENV['FACEBOOK_SECRET']
-  config.omniauth :twitter, ENV['TWITTER_ID'], ENV['TWITTER_SECRET']
+  require "omniauth-facebook"
+  require "omniauth-twitter"
+  config.omniauth :facebook, ENV["FACEBOOK_ID"], ENV["FACEBOOK_SECRET"]
+  config.omniauth :twitter, ENV["TWITTER_ID"], ENV["TWITTER_SECRET"]
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
   # ==> Warden configuration

@@ -10,11 +10,11 @@ class StudentEllPreferencesController < ApplicationController
       if current_student&.update(student_params) # Use strong params here
         current_student.set_ell_schools unless current_student.ell_language.blank?
 
-        format.js { render template: 'student_sped_preferences/new' }
+        format.js { render template: "student_sped_preferences/new" }
         format.html { redirect_to new_student_sped_preference_path }
       else
-        format.js { render template: 'student_ell_preferences/new' }
-        flash[:alert] = 'There were problems with your search. Please complete the required fields and try again.'
+        format.js { render template: "student_ell_preferences/new" }
+        flash[:alert] = "There were problems with your search. Please complete the required fields and try again."
         format.html { redirect_to root_url }
       end
     end

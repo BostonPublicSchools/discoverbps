@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-ENV['RAILS_ENV'] = 'test'
-require File.expand_path('../config/environment', __dir__)
-require 'rails/test_help'
+ENV["RAILS_ENV"] = "test"
+require File.expand_path("../config/environment", __dir__)
+require "rails/test_help"
 
 module ActiveSupport
   class TestCase
@@ -21,8 +21,8 @@ module ActiveSupport
 
     def sign_in(user:, password:)
       post user_session_path \
-        'user[email]' => user.email,
-        'user[password]' => password
+        "user[email]" => user.email,
+        "user[password]" => password
     end
 
     # Add more helper methods to be used by all tests here...

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class CreateNotifications < ActiveRecord::Migration[5.2]
+class CreateNotifications < ActiveRecord::Migration[7.1]
   def change
     create_table :notifications do |t|
       t.text :message

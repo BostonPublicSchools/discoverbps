@@ -16,7 +16,7 @@ class PreferenceCategory < ApplicationRecord
     grade_level = grade.try(:downcase).try(:strip)
     PreferenceCategory.eager_load(:preferences).where(
       "preference_categories.include_in_preferences_panel = ? AND preferences.grade_#{grade_level} = ?", true, true
-    ).order('preference_categories.sort_order')
+    ).order("preference_categories.sort_order")
   end
 
   def active_preferences(grade)

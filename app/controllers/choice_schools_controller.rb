@@ -8,7 +8,7 @@ class ChoiceSchoolsController < ApplicationController
   before_action :find_student_by_session_token, only: %i[list order summary submit success]
   before_action :redirect_if_session_token_invalid, only: %i[list order summary submit success]
 
-  layout 'choice_schools'
+  layout "choice_schools"
 
   # GET
   def index
@@ -30,33 +30,34 @@ class ChoiceSchoolsController < ApplicationController
   # POST
   def send_verification
     if params[:contact_method].blank? || params[:token].blank?
-      redirect_to verify_choice_schools_path(token: params[:token]), alert: 'Please choose a contact method:'
+      redirect_to verify_choice_schools_path(token: params[:token]), alert: "Please choose a contact method:"
     else
       passcode_response = Webservice.generate_passcode(params[:token], params[:contact_method]) # BPS sends the code to applicant
       if passcode_response.try(:[], :passcode)
         redirect_to confirmation_choice_schools_path(token: params[:token], caseid: params[:caseid],
-                                                     contact_method: params[:contact_method])
+          contact_method: params[:contact_method])
       else
         redirect_to verify_choice_schools_path(token: params[:token], caseid: params[:caseid]),
-                    alert: 'Please choose a contact method:'
+          alert: "Please choose a contact method:"
       end
     end
   end
 
   # GET
-  def confirmation; end
+  def confirmation
+  end
 
   # POST
   # 710456
   def authenticate
     if params[:passcode].blank? || params[:token].blank?
       redirect_to confirmation_choice_schools_path(token: params[:token], caseid: params[:caseid]),
-                  alert: 'Please enter your confirmation code:'
+        alert: "Please enter your confirmation code:"
     else
       session_token_response = Webservice.generate_session_token(params[:token], params[:passcode])
       if (session_token = session_token_response.try(:[], :sessionToken))
         if (student = Student.save_choice_student_and_schools(params[:token], session_token, session[:session_id],
-                                                              session[:caseid]))
+          session[:caseid]))
           session[:current_student_id] = student.id
           session[:session_token] = session_token
 
@@ -64,12 +65,12 @@ class ChoiceSchoolsController < ApplicationController
         else
           Rails.logger.info "******************* didn't get a valid choice_student_and_schools"
           redirect_to confirmation_choice_schools_path(token: params[:token], caseid: params[:caseid]),
-                      alert: 'Please try again:'
+            alert: "Please try again:"
         end
       else
         Rails.logger.info "******************* didn't get a valid session token"
         redirect_to confirmation_choice_schools_path(token: params[:token], caseid: params[:caseid]),
-                    alert: 'Please try again:'
+          alert: "Please try again:"
       end
     end
   end
@@ -91,26 +92,26 @@ class ChoiceSchoolsController < ApplicationController
     @notifications = Notification.where(school_choice_pages: true)
     @studentResponse = Webservice.get_student(@student.token, session[:caseid])
     if @student.choice_schools.blank?
-      redirect_to choice_schools_path, alert: 'There were no schools that matched your search. Please try again.'
+      redirect_to choice_schools_path, alert: "There were no schools that matched your search. Please try again."
     elsif @studentResponse.try(:[], :HasRankedChoiceSubmitted) == true
       redirect_to success_choice_schools_path,
-                  alert: 'You have already submitted your school choice list for the current school year. Your choice list is as follows:'
+        alert: "You have already submitted your school choice list for the current school year. Your choice list is as follows:"
     elsif @studentResponse.try(:[],
-                               :RoundEndDate).present? && Time.now > DateTime.parse(@studentResponse.try(:[],
-                                                                                                         :RoundEndDate))
+      :RoundEndDate).present? && Time.now > DateTime.parse(@studentResponse.try(:[],
+        :RoundEndDate))
       @RoundEndDate = @studentResponse.try(:[], :RoundEndDate)
       redirect_to choice_schools_path(token: @student.token, caseid: session[:caseid]),
-                  alert: " As of #{Date.parse(@RoundEndDate).strftime('%B %d %Y')}, school choice process for the round is closed.  We are no longer accepting choices on this system. If you would like to submit choices for the #{SCHOOL_YEAR_CONTEXT} school year, please contact a Welcome Center."
+        alert: " As of #{Date.parse(@RoundEndDate).strftime("%B %d %Y")}, school choice process for the round is closed.  We are no longer accepting choices on this system. If you would like to submit choices for the #{SCHOOL_YEAR_CONTEXT} school year, please contact a Welcome Center."
     else
       @choice_schools = if (schools = @student.choice_schools.select do |x|
         x.choice_rank.present? if x.choice_rank != 0
       end.sort_by(&:choice_rank))
-                          schools
-                        elsif (schools = @student.starred_schools.all)
-                          schools
-                        else
-                          []
-                        end
+        schools
+      elsif (schools = @student.starred_schools.all)
+        schools
+      else
+        []
+      end
 
       @student.choice_schools.includes(:school).order(:sort_order).all.each do |student_school|
         @choice_schools << student_school unless @choice_schools.include?(student_school)
@@ -124,7 +125,7 @@ class ChoiceSchoolsController < ApplicationController
   def rank
     current_student.choice_schools.update_all(choice_rank: 0)
     if params[:schools].blank? || params[:schools].values.all?(&:blank?)
-      redirect_to order_choice_schools_path, alert: 'Please rank three or more schools and then submit your list'
+      redirect_to order_choice_schools_path, alert: "Please rank three or more schools and then submit your list"
     else
       rankings = params[:schools].values.select(&:present?)
       order_ranking = rankings.map { |x| x.try(:to_i) }.sort.include?(1)
@@ -134,7 +135,7 @@ class ChoiceSchoolsController < ApplicationController
         end.min..rankings.map do |x|
                    x.try(:to_i)
                  end.max).to_a
-      rescue StandardError
+      rescue
         false
       end
       isRankings_Integer = rankings.all? { |i| i.to_i.positive? }
@@ -142,10 +143,10 @@ class ChoiceSchoolsController < ApplicationController
       session[:student_schools] = {}
       duplicate_rankings = params[:schools].values.detect { |e| params[:schools].values.count(e) > 1 }.present?
       if duplicate_rankings
-        redirect_to order_choice_schools_path, alert: 'Duplicate rankings are not allowed!'
+        redirect_to order_choice_schools_path, alert: "Duplicate rankings are not allowed!"
       elsif properly_formatted && isRankings_Integer && order_ranking
         response = Webservice.get_student_homebased_choices(session[:caseid], SCHOOL_YEAR_CONTEXT,
-                                                            SERVICE_CLIENT_CODE, session[:session_token])
+          SERVICE_CLIENT_CODE, session[:session_token])
         school_ranking = params[:schools].values.reject(&:empty?).count
         count = school_ranking
         params[:schools].each do |id, rank|
@@ -155,7 +156,7 @@ class ChoiceSchoolsController < ApplicationController
           school = StudentSchool.find(id)
           school_eligibility = response.select do |key|
             if key[:SchoolName] == school.school_name
-              key[:SchoolEligibility].include?('Student Sch') || key[:SchoolEligibility].include?('Student current sch') || key[:SchoolEligibility].include?('Exam Applicant')
+              key[:SchoolEligibility].include?("Student Sch") || key[:SchoolEligibility].include?("Student current sch") || key[:SchoolEligibility].include?("Exam Applicant")
             end
           end
           if school_eligibility.present?
@@ -172,7 +173,7 @@ class ChoiceSchoolsController < ApplicationController
                 redirect_to summary_choice_schools_path and return if count.zero?
               else
                 redirect_to order_choice_schools_path,
-                            alert: "Because you haven't selected your students current school please rank 3 schools" and return
+                  alert: "Because you haven't selected your students current school please rank 3 schools" and return
               end
             end
           elsif school_ranking >= 3
@@ -188,12 +189,12 @@ class ChoiceSchoolsController < ApplicationController
           else
             school.update_column(:choice_rank, rank)
             redirect_to order_choice_schools_path,
-                        alert: "Because you haven't selected your students current school please rank 3 schools" and return
+              alert: "Because you haven't selected your students current school please rank 3 schools" and return
           end
         end
       else
         redirect_to order_choice_schools_path,
-                    alert: "Please ensure that your rankings are numbers in order and start with '1'"
+          alert: "Please ensure that your rankings are numbers in order and start with '1'"
       end
     end
   end
@@ -202,7 +203,7 @@ class ChoiceSchoolsController < ApplicationController
   def summary
     if Webservice.get_student(@student.token, session[:caseid]).try(:[], :HasRankedChoiceSubmitted) == true
       redirect_to success_choice_schools_path,
-                  alert: 'You have already submitted your school choice list for the current school year. Your choice list is as follows:'
+        alert: "You have already submitted your school choice list for the current school year. Your choice list is as follows:"
     else
       @choice_schools = @student.choice_schools.select do |x|
         x.choice_rank.present? if x.choice_rank != 0
@@ -214,19 +215,19 @@ class ChoiceSchoolsController < ApplicationController
   def submit
     @choice_schools = @student.choice_schools.select { |x| x.choice_rank.present? }.sort_by(&:choice_rank)
     if @choice_schools.blank?
-      redirect_to order_choice_schools_path, alert: 'Please rank one or more schools and then submit your list'
+      redirect_to order_choice_schools_path, alert: "Please rank one or more schools and then submit your list"
     elsif params[:parent_name].blank?
       redirect_to summary_choice_schools_path,
-                  alert: 'Please type your full name into the text box below to attest that:'
+        alert: "Please type your full name into the text box below to attest that:"
     else
       payload = []
       @choice_schools.each do |student_school|
-        payload << { 'ProgramCode' => student_school.program_code, 'SchoolLocalId' => student_school.school.bps_id,
-                     'Rank' => student_school.choice_rank, 'Grade' => @student.formatted_grade_level }
+        payload << {"ProgramCode" => student_school.program_code, "SchoolLocalId" => student_school.school.bps_id,
+                     "Rank" => student_school.choice_rank, "Grade" => @student.formatted_grade_level}
       end
-      @student.update_attributes(ranked: true, ranked_at: Time.now, parent_name: params[:parent_name])
+      @student.update(ranked: true, ranked_at: Time.now, parent_name: params[:parent_name])
       Webservice.save_ranked_choices(session[:session_token], payload, params[:parent_name],
-                                     SERVICE_CLIENT_CODE, SCHOOL_YEAR_CONTEXT, session[:caseid])
+        SERVICE_CLIENT_CODE, SCHOOL_YEAR_CONTEXT, session[:caseid])
       Webservice.send_ranked_email(session[:session_token], @student.token, session[:caseid])
       session[:student_schools].clear
       redirect_to success_choice_schools_path
@@ -237,10 +238,10 @@ class ChoiceSchoolsController < ApplicationController
   def success
     Rails.logger.info "****student token #{@student.token}"
     @choice_schools = if @student.token.present?
-                        Webservice.get_ranked_choices(@student.token, session[:caseid])
-                      else
-                        []
-                      end
+      Webservice.get_ranked_choices(@student.token, session[:caseid])
+    else
+      []
+    end
     Rails.logger.info "*********************** success page schools = #{@choice_schools}"
     # @choice_schools = @student.choice_schools.select { |x| x.choice_rank.present? }.sort_by {|x| x.choice_rank }
   end
@@ -249,9 +250,9 @@ class ChoiceSchoolsController < ApplicationController
 
   def redirect_if_student_token_invalid
     if params[:token].blank? || Webservice.get_student(params[:token], params[:caseid]).try(:[],
-                                                                                            :Token) != params[:token] || params[:caseid].blank?
+      :Token) != params[:token] || params[:caseid].blank?
       redirect_to choice_schools_path(token: params[:token], caseid: session[:caseid]),
-                  alert: 'Please access this site from a valid URL found in your invitation email.'
+        alert: "Please access this site from a valid URL found in your invitation email."
     end
   end
 
@@ -260,11 +261,11 @@ class ChoiceSchoolsController < ApplicationController
     # created in the past. we also need to verify that the token isn't expired
     if session[:session_token].blank? || @student.blank?
       redirect_to verify_choice_schools_path(token: @student.try(:token), caseid: session[:caseid]),
-                  alert: 'Please access this site from a valid URL found in your invitation email.'
+        alert: "Please access this site from a valid URL found in your invitation email."
     elsif Webservice.validate_session_token(session[:session_token]).try(:[],
-                                                                         :messageContent) != 'Session token is valid'
+      :messageContent) != "Session token is valid"
       redirect_to verify_choice_schools_path(token: @student.try(:token), caseid: session[:caseid]),
-                  alert: 'Your session token has expired. Please revalidate your account.'
+        alert: "Your session token has expired. Please revalidate your account."
     end
   end
 

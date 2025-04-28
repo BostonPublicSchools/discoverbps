@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::PasswordsController < Devise::PasswordsController
-  layout 'application'
+  layout "application"
 
   prepend_before_action :require_no_authentication
   # Render the #edit only if coming from a reset password email link
@@ -13,17 +13,17 @@ class Users::PasswordsController < Devise::PasswordsController
 
     if successfully_sent?(resource)
       if request.xhr?
-        render json: { success: true }
+        render json: {success: true}
       else
-        render action: 'new',
-               notice: "We sent a confirmation email to #{resource.email}. Please check your email for instructions on resetting your password."
+        render action: "new",
+          notice: "We sent a confirmation email to #{resource.email}. Please check your email for instructions on resetting your password."
       end
     elsif request.xhr?
-      render json: { success: false,
-                     errors: ["Sorry, we couldn't find a user with that email address. Please try again or create a new account if you haven't done so already."] }
+      render json: {success: false,
+                    errors: ["Sorry, we couldn't find a user with that email address. Please try again or create a new account if you haven't done so already."]}
     else
-      render action: 'new',
-             alert: "Sorry, we couldn't find a user with that email address. Please try again or create a new account if you haven't done so already."
+      render action: "new",
+        alert: "Sorry, we couldn't find a user with that email address. Please try again or create a new account if you haven't done so already."
     end
   end
 end

@@ -51,36 +51,36 @@ class School < ApplicationRecord
   def before_care?(grade_level)
     if api_surround_care.present?
       case grade_level
-      when 'K0'
-        api_surround_care[:IsBeforeK0] == 'True'
-      when 'K1'
-        api_surround_care[:IsBeforeK1] == 'True'
-      when 'K2'
-        api_surround_care[:IsBeforeK2] == 'True'
-      when '1'
-        api_surround_care[:IsBefore1To5] == 'True'
-      when '2'
-        api_surround_care[:IsBefore1To5] == 'True'
-      when '3'
-        api_surround_care[:IsBefore1To5] == 'True'
-      when '4'
-        api_surround_care[:IsBefore1To5] == 'True'
-      when '5'
-        api_surround_care[:IsBefore1To5] == 'True'
-      when '6'
-        api_surround_care[:IsBefore6] == 'True'
-      when '7'
-        api_surround_care[:IsBefore7To8] == 'True'
-      when '8'
-        api_surround_care[:IsBefore7To8] == 'True'
-      when '9'
-        api_surround_care[:IsBefore9To12] == 'True'
-      when '10'
-        api_surround_care[:IsBefore9To12] == 'True'
-      when '11'
-        api_surround_care[:IsBefore9To12] == 'True'
-      when '12'
-        api_surround_care[:IsBefore9To12] == 'True'
+      when "K0"
+        api_surround_care[:IsBeforeK0] == "True"
+      when "K1"
+        api_surround_care[:IsBeforeK1] == "True"
+      when "K2"
+        api_surround_care[:IsBeforeK2] == "True"
+      when "1"
+        api_surround_care[:IsBefore1To5] == "True"
+      when "2"
+        api_surround_care[:IsBefore1To5] == "True"
+      when "3"
+        api_surround_care[:IsBefore1To5] == "True"
+      when "4"
+        api_surround_care[:IsBefore1To5] == "True"
+      when "5"
+        api_surround_care[:IsBefore1To5] == "True"
+      when "6"
+        api_surround_care[:IsBefore6] == "True"
+      when "7"
+        api_surround_care[:IsBefore7To8] == "True"
+      when "8"
+        api_surround_care[:IsBefore7To8] == "True"
+      when "9"
+        api_surround_care[:IsBefore9To12] == "True"
+      when "10"
+        api_surround_care[:IsBefore9To12] == "True"
+      when "11"
+        api_surround_care[:IsBefore9To12] == "True"
+      when "12"
+        api_surround_care[:IsBefore9To12] == "True"
       end
     else
       false
@@ -90,36 +90,36 @@ class School < ApplicationRecord
   def after_care?(grade_level)
     if api_surround_care.present?
       case grade_level
-      when 'K0'
-        api_surround_care[:IsAfterK0] == 'True'
-      when 'K1'
-        api_surround_care[:IsAfterK1] == 'True'
-      when 'K2'
-        api_surround_care[:IsAfterK2] == 'True'
-      when '1'
-        api_surround_care[:IsAfter1To5] == 'True'
-      when '2'
-        api_surround_care[:IsAfter1To5] == 'True'
-      when '3'
-        api_surround_care[:IsAfter1To5] == 'True'
-      when '4'
-        api_surround_care[:IsAfter1To5] == 'True'
-      when '5'
-        api_surround_care[:IsAfter1To5] == 'True'
-      when '6'
-        api_surround_care[:IsAfter6] == 'True'
-      when '7'
-        api_surround_care[:IsAfter7To8] == 'True'
-      when '8'
-        api_surround_care[:IsAfter7To8] == 'True'
-      when '9'
-        api_surround_care[:IsAfter9To12] == 'True'
-      when '10'
-        api_surround_care[:IsAfter9To12] == 'True'
-      when '11'
-        api_surround_care[:IsAfter9To12] == 'True'
-      when '12'
-        api_surround_care[:IsAfter9To12] == 'True'
+      when "K0"
+        api_surround_care[:IsAfterK0] == "True"
+      when "K1"
+        api_surround_care[:IsAfterK1] == "True"
+      when "K2"
+        api_surround_care[:IsAfterK2] == "True"
+      when "1"
+        api_surround_care[:IsAfter1To5] == "True"
+      when "2"
+        api_surround_care[:IsAfter1To5] == "True"
+      when "3"
+        api_surround_care[:IsAfter1To5] == "True"
+      when "4"
+        api_surround_care[:IsAfter1To5] == "True"
+      when "5"
+        api_surround_care[:IsAfter1To5] == "True"
+      when "6"
+        api_surround_care[:IsAfter6] == "True"
+      when "7"
+        api_surround_care[:IsAfter7To8] == "True"
+      when "8"
+        api_surround_care[:IsAfter7To8] == "True"
+      when "9"
+        api_surround_care[:IsAfter9To12] == "True"
+      when "10"
+        api_surround_care[:IsAfter9To12] == "True"
+      when "11"
+        api_surround_care[:IsAfter9To12] == "True"
+      when "12"
+        api_surround_care[:IsAfter9To12] == "True"
       end
     else
       false
@@ -129,7 +129,7 @@ class School < ApplicationRecord
   # turn api_grades into an array
   def grade_levels
     if api_grades.present?
-      api_grades.collect { |x| x[:grade].upcase.gsub(/^0/, '') if x[:exists] == true }.compact
+      api_grades.collect { |x| x[:grade].upcase.gsub(/^0/, "") if x[:exists] == true }.compact
     else
       []
     end
@@ -143,8 +143,8 @@ class School < ApplicationRecord
     if table.blank? || key.blank? || value.blank?
       false
     elsif send(table).present? && send(table).try(:[],
-                                                  key.to_sym).present? && send(table).try(:[],
-                                                                                          key.to_sym).try(:to_s) == value
+      key.to_sym).present? && send(table).try(:[],
+        key.to_sym).try(:to_s) == value
       true
     else
       false
@@ -153,18 +153,18 @@ class School < ApplicationRecord
 
   def facilities_present?
     if api_facilities.present?
-      api_facilities[:hasartroom] == 'True' ||
-        api_facilities[:hasathleticfield] == 'True' ||
-        api_facilities[:hasauditorium] == 'True' ||
-        api_facilities[:hascafeteria] == 'True' ||
-        api_facilities[:hascomputerlab] == 'True' ||
-        api_facilities[:hasgymnasium] == 'True' ||
-        api_facilities[:haslibrary] == 'True' ||
-        api_facilities[:hasmusicroom] == 'True' ||
-        api_facilities[:hasoutdoorclassroom] == 'True' ||
-        api_facilities[:hasplayground] == 'True' ||
-        api_facilities[:haspool] == 'True' ||
-        api_facilities[:hassciencelab] == 'True' || false
+      api_facilities[:hasartroom] == "True" ||
+        api_facilities[:hasathleticfield] == "True" ||
+        api_facilities[:hasauditorium] == "True" ||
+        api_facilities[:hascafeteria] == "True" ||
+        api_facilities[:hascomputerlab] == "True" ||
+        api_facilities[:hasgymnasium] == "True" ||
+        api_facilities[:haslibrary] == "True" ||
+        api_facilities[:hasmusicroom] == "True" ||
+        api_facilities[:hasoutdoorclassroom] == "True" ||
+        api_facilities[:hasplayground] == "True" ||
+        api_facilities[:haspool] == "True" ||
+        api_facilities[:hassciencelab] == "True" || false
     else
       false
     end
@@ -172,12 +172,12 @@ class School < ApplicationRecord
 
   def student_support_present?
     if api_student_support.present?
-      if api_student_support.try(:[], :HasFullTimeNurse) == 'True' ||
-         api_student_support.try(:[], :HasPartTimeNurse) == 'True' ||
-         api_student_support.try(:[], :HasOnlineHealthCntr) == 'True'
-        api_student_support.try(:[], :HasFamilyCoord) == 'True' ||
-          api_student_support.try(:[], :HasGuidanceCoord) == 'True' ||
-          api_student_support.try(:[], :HasSocialWorker) == 'True'
+      if api_student_support.try(:[], :HasFullTimeNurse) == "True" ||
+          api_student_support.try(:[], :HasPartTimeNurse) == "True" ||
+          api_student_support.try(:[], :HasOnlineHealthCntr) == "True"
+        api_student_support.try(:[], :HasFamilyCoord) == "True" ||
+          api_student_support.try(:[], :HasGuidanceCoord) == "True" ||
+          api_student_support.try(:[], :HasSocialWorker) == "True"
         true
       else
         false
@@ -189,7 +189,7 @@ class School < ApplicationRecord
 
   def uniform_policy?
     if api_description.present?
-      if api_description[:uniformpolicy].blank? || api_description[:uniformpolicy] == 'No Uniform' || api_description[:uniformpolicy] == 'Not Specified'
+      if api_description[:uniformpolicy].blank? || api_description[:uniformpolicy] == "No Uniform" || api_description[:uniformpolicy] == "Not Specified"
         false
       else
         true
@@ -201,8 +201,8 @@ class School < ApplicationRecord
 
   # if a year is passed it will return applicants for that year; if no year is passed it will average the data from all years
   def applicants(grade_level, school_year = nil)
-    grade = grade_level.try(:to_s).try(:strip).try(:gsub, /^0/, '').try(:upcase)
-    year = school_year.try(:to_s).try(:strip).try(:gsub, /-.*/, '').try(:strip)
+    grade = grade_level.try(:to_s).try(:strip).try(:gsub, /^0/, "").try(:upcase)
+    year = school_year.try(:to_s).try(:strip).try(:gsub, /-.*/, "").try(:strip)
 
     if year.present?
       demand_data.where(grade_level: grade, year: year).last.try(:total_applicants)
@@ -213,8 +213,8 @@ class School < ApplicationRecord
 
   # if a year is passed it will return open seats for that year; if no year is passed it will average the data from all years
   def open_seats(grade_level, school_year = nil)
-    grade = grade_level.try(:to_s).try(:strip).try(:gsub, /^0/, '').try(:upcase)
-    year = school_year.try(:to_s).try(:strip).try(:gsub, /-.*/, '').try(:strip)
+    grade = grade_level.try(:to_s).try(:strip).try(:gsub, /^0/, "").try(:upcase)
+    year = school_year.try(:to_s).try(:strip).try(:gsub, /-.*/, "").try(:strip)
     if year.present?
       demand_data.where(grade_level: grade, year: year).last.try(:seats_before_round)
     elsif grade.present?
@@ -224,8 +224,8 @@ class School < ApplicationRecord
 
   # if a year is passed it will return applicants/open seat for that year; if no year is passed it will average the data from all years
   def applicants_per_open_seat(grade_level, school_year = nil)
-    grade = grade_level.try(:to_s).try(:strip).try(:gsub, /^0/, '').try(:upcase)
-    year = school_year.try(:to_s).try(:strip).try(:gsub, /-.*/, '').try(:strip)
+    grade = grade_level.try(:to_s).try(:strip).try(:gsub, /^0/, "").try(:upcase)
+    year = school_year.try(:to_s).try(:strip).try(:gsub, /-.*/, "").try(:strip)
     if grade.present?
       demand_data.where(grade_level: grade).average(:applicants_per_open_seat).try(:round, 2)
     elsif year.present?
@@ -236,8 +236,8 @@ class School < ApplicationRecord
   end
 
   def total_seats(grade_level, school_year = nil)
-    grade = grade_level.try(:to_s).try(:strip).try(:gsub, /^0/, '').try(:upcase)
-    year = school_year.try(:to_s).try(:strip).try(:gsub, /-.*/, '').try(:strip)
+    grade = grade_level.try(:to_s).try(:strip).try(:gsub, /^0/, "").try(:upcase)
+    year = school_year.try(:to_s).try(:strip).try(:gsub, /-.*/, "").try(:strip)
 
     if year.present?
       demand_data.where(grade_level: grade, year: year).last.try(:total_seats)

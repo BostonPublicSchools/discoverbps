@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class AddColumnsToUsers < ActiveRecord::Migration[5.2]
+class AddColumnsToUsers < ActiveRecord::Migration[7.1]
   def change
     add_column :users, :provider, :string
     add_column :users, :uid, :string

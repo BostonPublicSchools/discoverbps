@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class RenameSiblingColumnsToPlurals < ActiveRecord::Migration[5.2]
+class RenameSiblingColumnsToPlurals < ActiveRecord::Migration[7.1]
   def up
     rename_column :students, :sibling_school_name, :sibling_school_names
     rename_column :students, :sibling_school_id, :sibling_school_ids

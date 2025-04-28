@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class AddStudentPreferencesTable < ActiveRecord::Migration[5.2]
+class AddStudentPreferencesTable < ActiveRecord::Migration[7.1]
   def up
     create_table :student_preferences, id: false do |t|
       t.references :student, null: false

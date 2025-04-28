@@ -3,7 +3,7 @@
 class Admin::TextSnippetsController < ApplicationController
   before_action :authenticate_admin!
   before_action :set_text_snippet, only: %i[edit update destroy]
-  layout 'admin'
+  layout "admin"
 
   def index
     @text_snippets = TextSnippet.order(:location)
@@ -17,17 +17,18 @@ class Admin::TextSnippetsController < ApplicationController
     @text_snippet = TextSnippet.new(text_snippet_params)
 
     if @text_snippet.save
-      redirect_to admin_text_snippets_url, notice: 'Text Snippet was successfully created.'
+      redirect_to admin_text_snippets_url, notice: "Text Snippet was successfully created."
     else
       render :new
     end
   end
 
-  def edit; end
+  def edit
+  end
 
   def update
     if @text_snippet.update(text_snippet_params)
-      redirect_to admin_text_snippets_url, notice: 'Text Snippet was successfully updated.'
+      redirect_to admin_text_snippets_url, notice: "Text Snippet was successfully updated."
     else
       render :edit
     end
@@ -35,7 +36,7 @@ class Admin::TextSnippetsController < ApplicationController
 
   def destroy
     @text_snippet.destroy
-    redirect_to admin_text_snippets_url, notice: 'Text Snippet was successfully deleted.'
+    redirect_to admin_text_snippets_url, notice: "Text Snippet was successfully deleted."
   end
 
   private

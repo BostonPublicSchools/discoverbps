@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'json'
+require "json"
 
 task update_schools: %i[
   update_basic_info

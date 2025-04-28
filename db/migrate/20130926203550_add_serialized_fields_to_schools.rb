@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class AddSerializedFieldsToSchools < ActiveRecord::Migration[5.2]
+class AddSerializedFieldsToSchools < ActiveRecord::Migration[7.1]
   def change
     add_column :schools, :api_basic_info, :text
     add_column :schools, :api_awards, :text

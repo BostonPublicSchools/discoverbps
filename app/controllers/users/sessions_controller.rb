@@ -4,7 +4,7 @@ class Users::SessionsController < Devise::SessionsController
   prepend_before_action :require_no_authentication, only: %i[new create]
   prepend_before_action :allow_params_authentication!, only: :create
   prepend_before_action :verify_signed_out_user, only: :destroy
-  prepend_before_action -> { request.env['devise.skip_timeout'] = true }, only: %i[create destroy]
+  prepend_before_action -> { request.env["devise.skip_timeout"] = true }, only: %i[create destroy]
   # prepend_before_action only: [ :create, :destroy ] { request.env["devise.skip_timeout"] = true }
 
   # GET /resource/sign_in
@@ -22,7 +22,7 @@ class Users::SessionsController < Devise::SessionsController
     yield resource if block_given?
 
     if request.xhr?
-      render json: { success: true }
+      render json: {success: true}
     else
       respond_with resource, location: after_sign_in_path_for(resource)
     end
@@ -46,11 +46,11 @@ class Users::SessionsController < Devise::SessionsController
     methods = resource_class.authentication_keys.dup
     methods = methods.keys if methods.is_a?(Hash)
     methods << :password if resource.respond_to?(:password)
-    { methods: methods, only: [:password] }
+    {methods: methods, only: [:password]}
   end
 
   def auth_options
-    { scope: resource_name, recall: "#{controller_path}#new" }
+    {scope: resource_name, recall: "#{controller_path}#new"}
   end
 
   private

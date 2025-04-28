@@ -1,6 +1,6 @@
 class Admin::PreferenceCategoriesController < ApplicationController
   before_action :authenticate_admin!
-  layout 'admin'
+  layout "admin"
 
   def index
     @preference_categories = PreferenceCategory.rank(:sort_order)
@@ -15,9 +15,9 @@ class Admin::PreferenceCategoriesController < ApplicationController
 
     respond_to do |format|
       if @preference_category.save
-        format.html { redirect_to admin_preferences_url, notice: 'Preference category was successfully created.' }
+        format.html { redirect_to admin_preferences_url, notice: "Preference category was successfully created." }
       else
-        format.html { render action: 'new' }
+        format.html { render action: "new" }
       end
     end
   end
@@ -31,9 +31,9 @@ class Admin::PreferenceCategoriesController < ApplicationController
 
     respond_to do |format|
       if @preference_category.update(preference_category_params)
-        format.html { redirect_to admin_preferences_url, notice: 'Preference category was successfully updated.' }
+        format.html { redirect_to admin_preferences_url, notice: "Preference category was successfully updated." }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: "edit" }
       end
     end
   end
@@ -48,8 +48,8 @@ class Admin::PreferenceCategoriesController < ApplicationController
   end
 
   def sort
-    id = params['preference_category']['id'].gsub(/preference_category_/, '')
-    PreferenceCategory.find(id).update_attribute(:sort_order_position, params['preference_category']['sort_order'])
+    id = params["preference_category"]["id"].gsub("preference_category_", "")
+    PreferenceCategory.find(id).update(:sort_order_position, params["preference_category"]["sort_order"])
     render nothing: true
   end
 

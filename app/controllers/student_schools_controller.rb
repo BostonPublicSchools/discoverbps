@@ -8,14 +8,14 @@ class StudentSchoolsController < ApplicationController
 
     params[key].flatten.each_with_index do |bps_id, i|
       student_school = student.student_schools.where(bps_id: bps_id).first
-      student_school.update_attributes(sort_order_position: i, ranked: true) if student_school.present?
+      student_school.update(sort_order_position: i, ranked: true) if student_school.present?
     end
   end
 
   def star
     respond_to do |format|
       if @student_school.present? && @student_school.update_column(:starred, true)
-        format.js { render template: 'student_schools/actions/star' }
+        format.js { render template: "student_schools/actions/star" }
       end
     end
   end
@@ -23,7 +23,7 @@ class StudentSchoolsController < ApplicationController
   def unstar
     respond_to do |format|
       if @student_school.present? && @student_school.update_column(:starred, false)
-        format.js { render template: 'student_schools/actions/unstar' }
+        format.js { render template: "student_schools/actions/unstar" }
       end
     end
   end
@@ -33,9 +33,9 @@ class StudentSchoolsController < ApplicationController
     @current_student = current_student
 
     respond_to do |format|
-      if @current_school.present? && @current_school.update_attributes(sort_order_position: 1, ranked: true)
+      if @current_school.present? && @current_school.update(sort_order_position: 1, ranked: true)
         @last_school = current_student.home_schools.rank(:sort_order)[5] # ensures schools are ranked first
-        format.js { render template: 'student_schools/actions/add_another' }
+        format.js { render template: "student_schools/actions/add_another" }
       end
     end
   end

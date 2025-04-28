@@ -6,7 +6,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :omniauthable, omniauth_providers: %i[facebook twitter]
+    :recoverable, :rememberable, :trackable, :omniauthable, omniauth_providers: %i[facebook twitter]
 
   # Setup accessible (or protected) attributes for your model
   # TODO: remove since rails 5 no longer support, but kept for testing
@@ -23,10 +23,10 @@ class User < ApplicationRecord
     user = User.where(provider: auth.provider, uid: auth.uid).first
     if user.blank?
       user = User.create!(name: auth.extra.raw_info.name,
-                          provider: auth.provider,
-                          uid: auth.uid,
-                          email: auth.info.email,
-                          password: Devise.friendly_token[0, 20])
+        provider: auth.provider,
+        uid: auth.uid,
+        email: auth.info.email,
+        password: Devise.friendly_token[0, 20])
     end
     user
   end

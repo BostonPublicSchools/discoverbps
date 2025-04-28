@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This migration adds/changes fields in the respective table
-class DropSchoolsStudentsTable < ActiveRecord::Migration[5.2]
+class DropSchoolsStudentsTable < ActiveRecord::Migration[7.1]
   def up
     drop_table :schools_students
   end

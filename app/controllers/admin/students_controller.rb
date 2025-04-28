@@ -2,7 +2,7 @@
 
 class Admin::StudentsController < ApplicationController
   before_action :authenticate_admin! # Replaced before_action with before_action
-  layout 'admin'
+  layout "admin"
 
   def index
     @students = Student.order(:last_name)
