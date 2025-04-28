@@ -6,6 +6,9 @@ source 'https://rubygems.org'
 ruby '2.7.7'
 gem 'rails', '5.2.8'
 
+gem 'ffi', '< 1.17'
+
+
 # Dependency Management
 gem 'bundler', '~> 2.1.4'
 
